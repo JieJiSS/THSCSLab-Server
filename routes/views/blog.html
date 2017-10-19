@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh" lang="zh">
+
+<head>
+
+<title>Blog of THSCSLab</title>
+
+<meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
+<meta name="author" content="JieJiSS" />
+<meta name="description" content="The homepage of Tsinghua Highschool Computer Science Laboratory" />
+<meta name="keywords" content="THSITG, THSCSLab, Tsinghua Highschool, 清华附中, 高等项目研究实验室, 高研实验室, 高研" />
+<meta name="robots" content="index, follow, noarchive" />
+
+<link rel="stylesheet" type="text/css" media="screen" href="../css/index.css" />
+
+<link rel="stylesheet" href="../css/atom-one-light.css">
+<script src="../js/jquery-3.2.1.min.js" type="application/javascript"></script>
+<script src="../js/highlight.pack.js" type="application/javascript"></script>
+<script type="application/javascript">
+    function loaded() {
+		var titles = $("#main h1");
+		var sides = $("ul.sidemenu#sides");
+        for(var i = 0; i < titles.length; i++) {
+			var n = titles.get(i).innerText.replace(/\s/g, "").toLowerCase();
+			titles.get(i).parentNode.insertBefore($("<a>").prop("name", n).get(0), titles[i]);
+			var a = $('<li><a href="#' + n + '">');
+			a.get(0).childNodes[0].innerText = titles.get(i).innerText;
+			a.appendTo(sides);
+        }
+    }
+
+    if (window.attachEvent) {  
+        window.attachEvent("onload", loaded);
+    } else if (window.addEventListener) {  
+        window.addEventListener("DOMContentLoaded", loaded, false);
+    } else {
+        window.onload = loaded;
+    }
+</script>
+</head>
+<body>
+<!-- Wrap -->
+<div id="wrap"> 
+        <!-- Header -->
+        <div id="header">
+            <h1 id="logo">THSCSLab<span class="less-gray" style="font-weight: normal; font-size: 0.6em; padding-bottom: 5px;">高研实验室</span></h1>
+            <h2 id="slogan" style="font-weight: normal; font-size: 100%;">纸曲笔伏霍音起，疑似圣驾过丽沟。</h2>
+            <div id="searchform">
+                <form method="post" class="search" action="#" >
+                    <p><input name="search_query" class="textbox" type="text" placeholder="搜索文章" />
+                      <input class="button" type="submit" value="搜索" /></p>
+                </form>
+            </div>
+        </div>
+        <!-- menu -->
+        <div id="menu">
+            <ul style="font-weight: normal; font-size: 111%;">
+                <li id="current"><a href="../index.html"><span>Home</span></a></li>
+                <li><a href="../download.html"><span>Downloads</span></a></li>
+                <li><a href="../about.html"><span>About</span></a></li>
+            </ul>
+        </div>
+        <!--Content Wrap -->
+        <div id="content-wrap">
+            <div id="main">
+                <h1>简介</h1>
+                <p id="description"></p>
+                <p class="post-footer">
+					<!--
+					<a href="#comments" class="comments">Comments (comment_number)</a>
+					-->
+                    <span class="date">发布时间：<span id="post_time"></span></span>
+                    <span class="comments">文章作者：<span id="author"></span></span>
+                </p>
+            </div>
+            <script type="application/javascript">
+                var ctx = location.origin;
+                $("div#main").ready(function () {
+                    $.get(ctx + "/blog?title=" + location.href.split("/").pop().toLowerCase(), function (data, status) {
+                        if(status === "success") {
+                            var des = data.description || "本文没有简介。";
+                            $("p#description").html(des);
+                            $("span#post_time").text(data.post_date || "undefined");
+                            $("span#author").text(data.author || "THSCSLab");
+                            $("div#main").append(data.main_html || '<span style="color: red;">Failed to load data from server.');
+                            $('pre code').each(function(_, block) {
+                                hljs.highlightBlock(block);
+                            });
+                        }
+                    })
+                });
+            </script>
+            <div id="sidebar">
+                    <h1>文章目录</h1>
+                    <ul class="sidemenu" id="sides">
+                        <!--<li><a href="../index.html">主页</a></li>-->
+                    </ul>
+            </div>
+        <!--End content-wrap-->
+        </div>
+        <!-- Footer -->
+        <div id="footer">
+            <p><span style="padding-right: 45px;">&copy; 2017 THSCSLab</span>
+            <a href="../index.html">Home</a> |
+            <a href="http://validator.w3.org/check/referer">XHTML</a> |
+            <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a> |
+            <a href="http://styleshouts.com">Style</a>
+            </p>
+        </div>
+<!-- END Wrap -->
+</div>
+
+</body>
+</html>
