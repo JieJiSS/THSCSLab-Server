@@ -1,1 +1,1 @@
-# THSCSLab_Server
+# THSCSLab-Server
