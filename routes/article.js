@@ -1,15 +1,13 @@
 const router = require("koa-router")();
+const render = require("koa-ejs");
+
+
 
 router.prefix("/article");
 
-router.get("/", async function(ctx, next) {
-    await ctx.render("index", {
-        
-    });
-});
-
-router.get("/bar", function(ctx, next) {
-    ctx.body = "this is a users/bar response";
+router.get("/", async (ctx, next) => {
+    ctx.type = ".html";
+    ctx.body = await readFile(path.join(__dirname, "views", "article.html"));
 });
 
 module.exports = router;

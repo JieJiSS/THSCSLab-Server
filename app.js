@@ -33,9 +33,9 @@ app.use(
 render(app, {
     root: path.join(__dirname, "views"),
     layout: "template",
-    viewExt: "html",
+    viewExt: "ejs", // *.ejs
     cache: false,
-    debug: true
+    debug: true /*@TODO false*/
 });
 
 // logger
