@@ -3,11 +3,8 @@ const path = require("path");
 const hash = require("../scripts/hash");
 const readFile = require("../scripts/readFile");
 
-router.get("*", async (ctx, next) => {
-    if (ctx.path === '/favicon.ico')
-        return await next();
-    if(!ctx.session.hash)
-        ctx.session.hash = hash();
+router.get("/", async (ctx, next) => {
+    ctx.type = "html";
     ctx.body = await readFile(path.join(__dirname, "views", "index.html"));
 });
 

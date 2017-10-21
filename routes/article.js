@@ -23,33 +23,32 @@ let getData = function(db, title, callback) {
 router.prefix("/article");
 
 router.get("/:title", async (ctx, next) => {
-    const title = ctx.params.title;
-    let obj;
-    MongoClient.connect(DB_CONN_STR, function (err, db) {
+    await MongoClient.connect(DB_CONN_STR, async function (err, db) {
         if(err) {
             ctx.throw(502, "Failed to connect to db");
             console.log(new Date(), "- 502 -", err.stack);
             return;
         }
-        getData(db, search.title, function (result) {
+        await getData(db, ctx.params.title, async function (result) {
             db.close();
-            obj = result[0];
+            let obj = result[0];
             if(obj === null || obj === undefined) {
                 obj = {};
-                console.log(new Date().toJSON() + " - 502 - obj is null or undefined; search.title =", search.title);
+                console.log(new Date().toJSON() + " - 502 - obj is null or undefined; title =", ctx.params.title);
             }
             delete obj._id;
-            obj.title = search.title;
+            //@TODO obj properties export
+            //ctx.type = ".html";
+            try {
+            await ctx.render("article", {
+                title: obj.title,
+                description: obj.description,
+                main_html: obj.main_html,
+                post_date: obj.post_date,
+                author: obj.author || "",
+            });
+            }catch(e) { console.log(e)}
         });
-    });
-    //@TODO obj properties export
-    ctx.type = ".html";
-    ctx.body = await ctx.render("article", {
-        real_title,
-        description,
-        html_body,
-        edit_date,
-        author,
     });
 });
 

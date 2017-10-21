@@ -4,7 +4,7 @@
 
 <head>
 
-<title>Blog of THSCSLab</title>
+<title><%- title %> - THSCSLab</title>
 
 <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
 <meta name="author" content="JieJiSS" />
@@ -64,7 +64,7 @@
         <!--Content Wrap -->
         <div id="content-wrap">
             <div id="main">
-                <h1>简介</h1>
+                <h1><%- title %> - 简介</h1>
                 <p id="description"></p>
                 <p class="post-footer">
 					<!--
@@ -77,24 +77,14 @@
             <script type="application/javascript">
                 var ctx = location.origin;
                 $("div#main").ready(function () {
-                    $.get(ctx + "/blog?title=" + location.href.split("/").pop().toLowerCase(), function (data, status) {
-                        if(status === "success") {
-                            var des = data.description || "本文没有简介。";
-                            $("p#description").html(des);
-                            $("span#post_time").text(data.post_date || "undefined");
-                            $("span#author").text(data.author || "THSCSLab");
-                            $("div#main").append(data.main_html || '<span style="color: red;">Failed to load data from server.');
-                            $('pre code').each(function(_, block) {
-                                hljs.highlightBlock(block);
-                            });
-                        }
-                    })
+                    $('pre code').each(function(_, block) {
+                        hljs.highlightBlock(block);
+                    });
                 });
             </script>
             <div id="sidebar">
                     <h1>文章目录</h1>
                     <ul class="sidemenu" id="sides">
-                        <!--<li><a href="../index.html">主页</a></li>-->
                     </ul>
             </div>
         <!--End content-wrap-->
