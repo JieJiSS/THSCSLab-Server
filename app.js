@@ -4,6 +4,7 @@ const views = require("koa-views");
 const render = require("koa-ejs");
 const path = require("path");
 const json = require("koa-json");
+const session = require("koa-session");
 const onerror = require("koa-onerror");
 const bodyparser = require("koa-bodyparser");
 const logger = require("koa-logger");
@@ -14,10 +15,20 @@ const article = require("./routes/article");
 // error handler
 onerror(app);
 
+const CONFIG = {
+    key: "_kas",
+    maxAge: "session",
+};
+
 // middlewares
+app.use(session(CONFIG, app));
+
 app.use(
     bodyparser({
-        enableTypes: ["json", "form", "text"]
+        enableTypes: ["json", "form", "text"],
+        onerror: function(err, ctx) {
+            ctx.throw("body parse error", 422);
+        }
     })
 );
 app.use(json());

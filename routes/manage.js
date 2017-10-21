@@ -1,8 +1,19 @@
 const router = require("koa-router")();
 const path = require("path");
+const hash = require("../scripts/hash");
 const readFile = require("../scripts/readFile");
 
-router.get("/login", async (ctx, next) => {
+router.get("*", async (ctx, next) => {
+    if (ctx.path === '/favicon.ico')
+        return await next();
+    if(!ctx.session.hash)
+        ctx.session.hash = hash();
+    ctx.body = await readFile(path.join(__dirname, "views", "index.html"));
+});
+
+router.post("/login/:user", async (ctx, next) => {
+    let body = ctx.request.body; //parsed body
+    console.log(body);
     ctx.type = ".html";
     ctx.body = await readFile(path.join(__dirname, "views", "login.html"));
 });
