@@ -23,6 +23,7 @@ let getData = function(db, title, callback) {
 router.prefix("/article");
 
 router.get("/:title", async (ctx, next) => {
+    console.log();
     await MongoClient.connect(DB_CONN_STR, async function (err, db) {
         if(err) {
             ctx.throw(502, "Failed to connect to db");
@@ -38,16 +39,16 @@ router.get("/:title", async (ctx, next) => {
             }
             delete obj._id;
             //@TODO obj properties export
-            //ctx.type = ".html";
+           // ctx.type = ".html";
             try {
-            await ctx.render("article", {
+            ctx.body = await ctx.render("article", {
                 title: obj.title,
                 description: obj.description,
                 main_html: obj.main_html,
                 post_date: obj.post_date,
                 author: obj.author || "",
             });
-            }catch(e) { console.log(e)}
+            }catch(e) { console.log('fail\n'+e)}
         });
     });
 });

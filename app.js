@@ -35,7 +35,7 @@ app.use(
 );
 app.use(json());
 app.use(logger());
-app.use(require("koa-static")(path.join(__dirname, "assets"), { defer: false }));
+//app.use(require("koa-static")(path.join(__dirname, "assets"), { defer: false }));
 /*
 app.use(
     views(__dirname + "/views", {
@@ -45,9 +45,10 @@ app.use(
 */
 render(app, {
     root: path.join(__dirname, "views"),
-    layout: "article",
-    viewExt: "ejs", // *.ejs
+    layout: false,//"article",
+    viewExt: ".ejs", // *.ejs
     cache: false,
+    writeResp: false,
     debug: true /*@TODO false*/
 });
 
@@ -64,8 +65,9 @@ app.use(manage.routes(), manage.allowedMethods());
 app.use(article.routes(), article.allowedMethods());
 
 router.get("*", async (ctx, next) => {
-    if (ctx.path === "/favicon.ico") return await next();
+    //if (ctx.path === "/favicon.ico") return await next();
     //if (!ctx.session.hash) ctx.session.hash = hash();
+    console.log(1);
     await next();
 });
 
