@@ -23,7 +23,7 @@ let getData = function(db, title, callback) {
 router.prefix("/article");
 
 router.get("/:title", async (ctx, next) => {
-    console.log();
+    console.log("title");
     await MongoClient.connect(DB_CONN_STR, async function (err, db) {
         if(err) {
             ctx.throw(502, "Failed to connect to db");
@@ -48,7 +48,7 @@ router.get("/:title", async (ctx, next) => {
                 post_date: obj.post_date,
                 author: obj.author || "",
             });
-            }catch(e) { console.log('fail\n'+e)}
+            } catch(e) { console.log('fail\n'+e)}
         });
     });
 });
