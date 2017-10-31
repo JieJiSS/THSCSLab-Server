@@ -4,6 +4,7 @@ const path = require("path");
 const readFile = require("../scripts/readFile");
 const getExt = require("../scripts/getExt");
 const toSafePath = require("../scripts/toSafePath");
+const login = require("./login.js");
 
 const ptr = require("path-to-regexp");
 
@@ -13,11 +14,16 @@ router.get("/", async (ctx, next) => {
     console.log("/");
 });
 
-router.post("/login", async (ctx, next) => {
-    let body = ctx.request.body; //parsed body
-    console.log(body);
+router.post("/login-json", async (ctx, next) => {
+    let json = ctx.request.body;
     let sess = ctx.session.hash;
-    console.log(sess);
+    ctx.body = await login(sess, json);
+});
+
+router.post("/login-form", async (ctx, next) => {
+    let json = ctx.request.body;
+    let sess = ctx.session.hash;
+    ctx.body = await login(sess, json);
 });
 
 router.get("/manage", async (ctx, next) => {

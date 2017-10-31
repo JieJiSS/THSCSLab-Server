@@ -3,7 +3,7 @@ const render = require("koa-ejs");
 const toTitle = require("../scripts/toTitle");
 
 let MongoClient = require("mongodb").MongoClient;
-const DB_CONN_STR = "mongodb://localhost:27017/test";
+const DB_CONN_STR = require("../scripts/getDB");
 
 let getData = function(db, title) {
     return new Promise((resolve, reject) => {

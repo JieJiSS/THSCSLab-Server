@@ -36,24 +36,14 @@ app.use(
 );
 app.use(json());
 app.use(logger());
-//app.use(require("koa-static")(path.join(__dirname, "assets"), { defer: false }));
-/*
-app.use(
-    views(__dirname + "/views", {
-        extension: "pug"
-    })
-);
-*/
-
-console.log("R: ", app.context.render)
 
 render(app, {
     root: path.join(__dirname, "views"),
-    layout: false,//"article",
-    viewExt: ".ejs", // *.ejs
+    layout: false,
+    viewExt: ".ejs",
     cache: false,
     writeResp: false,
-    debug: true /*@TODO false*/
+    debug: false
 });
 
 // logger

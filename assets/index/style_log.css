@@ -132,7 +132,7 @@ html{-webkit-text-size-adjust:none;}
 .login_boder p.forgot{ font-size:11px;  text-align:right; margin-bottom:15px;}
 .login_boder p.forgot a,.login_boder p.forgot a:visited{color:#8c8e91;}
 .login_boder p.forgot a:hover{color:#206fd5;}
-.rem_sub input.sub_button{ float:right; width:122px; height:32px; background:url(site_bg.png) no-repeat -153px -850px; border:none; color:#FFF; padding-bottom:2px; font-size:14px; font-weight:bold;}
+.rem_sub input.sub_button{ width:122px; height:32px; background:url(site_bg.png) no-repeat -153px -850px; border:none; color:#FFF; padding-bottom:2px; font-size:14px; position: relative; left: 93.5px; left: calc((309px - 122px) / 2);}
 
 .rem_sub input.sub_buttons{ float:left; width:122px;  height:32px; background:url(site_bg.png) no-repeat -153px -850px; border:none; color:#FFF; padding-bottom:2px; font-size:14px; font-weight:bold;}
 .rem_sub input.sub_buttons:hover{ background-position:-153px -882px; cursor:pointer;}
