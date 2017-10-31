@@ -44,6 +44,9 @@ app.use(
     })
 );
 */
+
+console.log("R: ", app.context.render)
+
 render(app, {
     root: path.join(__dirname, "views"),
     layout: false,//"article",

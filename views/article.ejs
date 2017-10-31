@@ -12,11 +12,11 @@
 <meta name="keywords" content="THSITG, THSCSLab, Tsinghua Highschool, 清华附中, 高等项目研究实验室, 高研实验室, 高研" />
 <meta name="robots" content="index, follow, noarchive" />
 
-<link rel="stylesheet" type="text/css" media="screen" href="../css/index.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="../assets/css/index.css" />
 
-<link rel="stylesheet" href="../css/atom-one-light.css">
-<script src="../js/jquery-3.2.1.min.js" type="application/javascript"></script>
-<script src="../js/highlight.pack.js" type="application/javascript"></script>
+<link rel="stylesheet" href="../assets/css/atom-one-light.css">
+<script src="../assets/js/jquery-3.2.1.min.js" type="application/javascript"></script>
+<script src="../assets/js/highlight.pack.js" type="application/javascript"></script>
 <script type="application/javascript">
     function loaded() {
 		var titles = $("#main h1");
@@ -64,15 +64,16 @@
         <!--Content Wrap -->
         <div id="content-wrap">
             <div id="main">
-                <h1><%- title %> - 简介</h1>
+                <h1>Description</h1>
                 <p id="description"></p>
                 <p class="post-footer">
 					<!--
 					<a href="#comments" class="comments">Comments (comment_number)</a>
 					-->
-                    <span class="date">发布时间：<span id="post_time"></span></span>
-                    <span class="comments">文章作者：<span id="author"></span></span>
+                    <span class="date">发布时间：<span id="post_time"><%- post_date %></span></span>
+                    <span class="comments">文章作者：<span id="author"><%- author %></span></span>
                 </p>
+                <%- main_html %>
             </div>
             <script type="application/javascript">
                 var ctx = location.origin;
