@@ -5,6 +5,7 @@ const readFile = require("../scripts/readFile");
 const getExt = require("../scripts/getExt");
 const toSafePath = require("../scripts/toSafePath");
 const login = require("./login.js");
+const send403
 
 const ptr = require("path-to-regexp");
 
@@ -27,8 +28,11 @@ router.post("/login-form", async (ctx, next) => {
 });
 
 router.get("/manage", async (ctx, next) => {
+    if(!("hash" in ctx.session) || !isLogined(ctx.session.hash)) {
+        return send403(ctx);
+    }
     ctx.type = ".html";
-    ctx.body = await readFile(path.join(__dirname, "views", "manage.html"));
+    ctx.body = await ctx.render("admin"); //@TODO
 });
 
 router.get(/^\/assets\/\S+$/, async (ctx, next) => {
