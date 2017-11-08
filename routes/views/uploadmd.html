@@ -1,0 +1,37 @@
+<!DOCTYPE html>  
+<html>    
+<head>    
+    <meta charset="UTF-8">    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">  
+    <title>Markdown上传</title>
+</head>    
+<body>    
+    <form action="http://127.0.0.1:3000/upload-md" method="post" enctype="multipart/form-data" id="uploadForm">  
+        <input type="file" name="file" id="file" accept="*/*; charset=UTF-8" />
+        <input type="submit" value="上传" />
+    </form>
+    <script>
+    document
+        .getElementById("uploadForm")
+        .addEventListener("submit", function checkMD(ev) {
+            var fileNode = document.getElementById("file");
+            if (!fileNode.files) {
+                fileNode.files = { length: 1 };
+                fileNode.files[0] = { name: fileNode.value || "" };
+            }
+            if (
+                fileNode.files.length !== 1 ||
+                fileNode.files[0].name.substring(
+                    fileNode.files[0].name.length - 3
+                ).toLowerCase() !== ".md"
+            ) {
+                alert("不是Markdown文档（.md）。");
+                if(ev.preventDefault)
+                    ev.preventDefault();
+                else
+                    location.reload();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -5,9 +5,7 @@ const readFile = require("../scripts/readFile");
 const getExt = require("../scripts/getExt");
 const toSafePath = require("../scripts/toSafePath");
 const login = require("./login.js");
-const send403
-
-const ptr = require("path-to-regexp");
+const send403 = require("../scripts/send403");
 
 router.get("/", async (ctx, next) => {
     ctx.type = "html";

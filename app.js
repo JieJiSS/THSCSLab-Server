@@ -13,6 +13,7 @@ const logger = require("koa-logger");
 
 const manage = require("./routes/manage");
 const article = require("./routes/article");
+const uploadMD = require("./routes/uploadMD");
 
 // error handler
 onerror(app);
@@ -59,6 +60,7 @@ app.use(async (ctx, next) => {
 // routes
 app.use(manage.routes(), manage.allowedMethods());
 app.use(article.routes(), article.allowedMethods());
+app.use(uploadMD.routes(), uploadMD.allowedMethods());
 
 // error-handling
 app.on("error", (err, ctx) => {

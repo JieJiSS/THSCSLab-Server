@@ -1,1 +1,1 @@
-@mongod --dbpath C:\Users\THSCS-Lab\Desktop\Work\server\database
+@mongod --dbpath ..\database

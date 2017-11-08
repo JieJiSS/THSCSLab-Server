@@ -1,5 +1,5 @@
 const router = require("koa-router")();
-const toTitle = require("../scripts/toTitle");
+const { toTitle } = require("../scripts/toTitle");
 
 let MongoClient = require("mongodb").MongoClient;
 const DB_CONN_STR = require("../scripts/getDB");
