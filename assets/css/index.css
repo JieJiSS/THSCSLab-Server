@@ -19,11 +19,12 @@ a:hover {
 /* headers */
 h1, h2, h3 {
 	font-family: Verdana, Tahoma, 'Trebuchet MS', Sans-serif;
-	font-weight: normal;
+    font-weight: normal;
+    color: #007cb3;
 }
-h1 { font-size: 180%; }
-h2 { font-size: 160%; text-transform: uppercase; }
-h3 { font-size: 135%; color: #007E80; }
+h1 { font-size: 189%; }
+h2 { font-size: 150%; }
+h3 { font-size: 121%; color: #007E80; }
 
 p {
 	margin: 0;
