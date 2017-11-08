@@ -23,22 +23,33 @@ function parseFilename (fn="") {
     let joinedPinyin = joinArray(
         py(fn.toLowerCase().replace(/\.md$/i, ""), {
             segment: false,
-            style: py.STYLE_TONE2
+            style: py.STYLE_NORMAL
         }),
         "-"
     );
     return joinedPinyin.replace(/\s+/g, "-") + ".md";
 }
 
-function joinArray(arr, sep=" ") {
+function joinArray(arr, sep=" ") { // dirty hack
     let strs = [];
     arr.forEach(v => {
-        v[0] && v[0].trim() && strs.push(v[0].trim());
+        v[0] && v[0].trim() && v[0].trim().replace(/[^\w\-\.]/g, "") && strs.push(v[0].trim().replace(/[^\w\-\.]/g, ""));
     });
-    return strs.join(sep)
+    return strs.join(sep);
+}
+
+function getFilename(html="") {
+    if(!html.trim()) {
+        throw new TypeError("In getFilename: invalid html")
+    }
+    let filename = html.split(/(\<h1\>|<\/h1>)/i)[2];
+    filename = parseFilename(filename);
+    console.log("Parsed Filename:", filename);
+    return filename;
 }
 
 module.exports = {
     toTitle,
     parseFilename,
+    getFilename,
 };

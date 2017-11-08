@@ -27,7 +27,8 @@ h3 { font-size: 135%; color: #007E80; }
 
 p {
 	margin: 0;
-	padding: 10px 12px;
+    padding: 10px 12px;
+    text-indent: 2em;
 }
 h1, h2, h3 {
     padding: 15px 12px;
@@ -59,15 +60,21 @@ code {
   border: 1px solid #fafafa;
   border-radius: 6px;
   margin: 5px 0;
-  padding: 15px 20px;
+  padding: 0.3em;
   text-align: left;
-  display: block;
+  display: inline;
   overflow: auto;  
   font: 500 1em/1.5em 'Lucida Console', 'courier new', monospace ;
   /* white-space: pre; */
   background: #FAFAFA;
   border: 1px solid #f2f2f2;  
 }
+
+pre>code {
+    display: block;
+    padding: 10px;
+}
+
 acronym {
   cursor: help;
   border-bottom: 1px solid #777;
