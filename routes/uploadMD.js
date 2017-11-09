@@ -6,6 +6,7 @@ const md = require('markdown-it')();
 const fs = require('fs');
 const { promisify } = require('bluebird');
 const { parseFilename, getFilename } = require("../scripts/toTitle");
+const toSafePath = require("../scripts/toSafePath");
 
 const rename = promisify(fs.rename);
 const readFile = promisify(fs.readFile);
@@ -31,18 +32,31 @@ const upload = multer({
     }
 });
 //路由
+
+router.get("/upload-md", async (ctx, next) => {
+    ctx.type = ".html";
+    ctx.body = await readFile(path.join(__dirname, "/views/uploadmd.html"));
+});
+
 router.post("/upload-md", upload.single("file"), async (ctx, next) => {
-    let filePath = path.join(__dirname, "../md", ctx.req.file.filename);
-    let data = (await readFile(filePath)).toString(),
-        html = md.render(data);
+    let filePath = path.join(__dirname, "../md", toSafePath(ctx.req.file.filename));
+    let data = (await readFile(filePath))
+        .toString()
+        .replace("\uFEFF", "")
+        .replace(/^(#+)([^\s#])/gim, "$1 $2");
+    console.log(data);
+    let html = md.render(data);
+    console.log(html);
     let name = getFilename(html),
         fpath = path.join(__dirname, "../md", name);
     try {
         if((await stat(fpath)).isFile()) {
+            let showName = name.replace(/\.md$/i, "");
             ctx.body = {
                 success: false,
                 filename: null,
-                message: "文件已存在。"
+                message: "文件已存在：" + showName,
+                urlpath: "/article/" + showName,
             };
             unlink(filePath, err => {
                 if(err) {
@@ -58,7 +72,8 @@ router.post("/upload-md", upload.single("file"), async (ctx, next) => {
         ctx.body = {
             success: false,
             filename: null,
-            message: `重命名失败：${err.message.replace(__dirname, "./")}。`
+            message: `重命名失败：${err.message.replace(__dirname, "./")}。`,
+            urlpath: null,
         };
         unlink(filePath, err => {
             if(err) {
@@ -67,11 +82,13 @@ router.post("/upload-md", upload.single("file"), async (ctx, next) => {
         });
         return;
     }
-    ctx.body = {
-        success: true,
-        filename: name, //返回文件名
-        message: "上传完成。"
-    };
+    let showName = name.replace(/\.md$/i, "");
+    ctx.type = ".html";
+    ctx.body = `<html>
+    <head>
+        <meta http-equiv="refresh" content="0; url=article/${ showName }" />
+    </head>
+</html>`;
 });
 
 module.exports = router;

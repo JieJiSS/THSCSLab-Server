@@ -8,7 +8,11 @@
 <body>    
     <form action="http://127.0.0.1:3000/upload-md" method="post" enctype="multipart/form-data" id="uploadForm">  
         <input type="file" name="file" id="file" accept="*/*; charset=UTF-8" />
+        <br />
         <input type="submit" value="上传" />
+    </form>
+    <form>
+        <input type="submit" value="预览" id="preview" style="display: none;"/>
     </form>
     <script>
     document
@@ -30,6 +34,56 @@
                     ev.preventDefault();
                 else
                     location.reload();
+            } else {
+                if(window.w) {
+                    window.w.close();
+                }
+            }
+        });
+    </script>
+    <script src="./assets/upload-md/md.js"></script>
+    <script>
+    var md = new markdownit({
+        breaks: true,
+        langPrefix: 'lang-'
+    });
+    document
+        .getElementById("uploadForm")
+        .addEventListener("change", function previewSetting(ev) {
+            console.log(1);
+            var fileNode = document.getElementById("file");
+            var preview = document.getElementById("preview");
+            if (fileNode.files && fileNode.files.length === 1 && window.FileReader) {
+                var file = fileNode.files[0];
+                var reader = new FileReader();
+                preview.style = "display: initial";
+                reader.onload = function () {
+                    var mdsource = this.result.toString().replace(/^(#+)([^\s#])/gim, "$1 $2");
+                    var html = md.render(mdsource);
+                    preview.onclick = function (ev) {
+                        ev = ev || window.event;
+                        var left = Math.max(Math.floor((window.outerWidth - 960) / 2), 0);
+                        var top = Math.max(Math.floor((window.outerHeight - 860) / 2) - 40, 0);
+                        var windowStyle = "width=960,height=860,resizable=no,status=no,titlebar=no,left=" + left + ",top=" + top;
+                        window.w = window.open("", "_blank", windowStyle);
+                        var stylesheet = document.createElement("link");
+                        stylesheet.rel = "stylesheet";
+                        stylesheet.type = "text/css";
+                        stylesheet.href = location.origin + "/assets/upload-md/md.css";
+                        w.document.head.appendChild(stylesheet);
+                        stylesheet.onload = function () {
+                            w.document.body.innerHTML = html;
+                            w.focus();
+                        };
+                        w.document.body.innerText = "loading...";
+                        w.addEventListener("beforeunload", function () { window.w = undefined; });
+                        ev.preventDefault();
+                    };
+                };
+                reader.readAsText(file);
+            } else {
+                preview.style = "display: none;";
+                preview.onclick = null;
             }
         });
     </script>

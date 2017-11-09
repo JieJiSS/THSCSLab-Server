@@ -6,6 +6,9 @@ body {
 	color: #555;
 	text-align: center;
 }
+em {
+    padding-left: 2em;
+}
 /* links */
 a:link, a:visited {
 	background: inherit;
@@ -66,14 +69,16 @@ code {
   display: inline;
   overflow: auto;  
   font: 500 1em/1.5em 'Lucida Console', 'courier new', monospace ;
-  /* white-space: pre; */
+  white-space: pre;
   background: #FAFAFA;
   border: 1px solid #f2f2f2;  
+  color: #0098ef;
 }
 
 pre>code {
     display: block;
     padding: 10px;
+    color: #222;
 }
 
 acronym {
@@ -84,10 +89,11 @@ acronym {
 /* blockquote */
 blockquote {
 	margin: 10px;
- 	padding: 10px 10px 10px 35px;
+    padding: 14px 10px 5px 0;
+    line-height: 0.8em;
     border: 1px solid #f2f2f2;
-	  background: #FAFAFA url(../images/quote.gif) no-repeat 10px 12px;
-	  overflow-wrap: break-word;
+    background: #FAFAFA url(../images/quote.gif) no-repeat 10px 12px;
+    overflow-wrap: break-word;
 }
 
 /* form elements */
@@ -271,9 +277,11 @@ form.search input.button {
 
 /* sidebar */
 #sidebar {
-	float: right;
-	width: 26%;
-	padding: 0; margin: 10px 0 0 0;
+	width: 271px;
+	padding: 0;
+	margin: 10px 0 0 0;
+	position: fixed;
+	margin-left: 685px;
 }	
 #sidebar h1 {
 	margin: 10px 0 0 0; 
@@ -291,13 +299,25 @@ form.search input.button {
 }
 #sidebar ul.sidemenu li {
 	border-bottom: 1px solid #EFF0F1;
-	padding: 3px 0 3px 5px;
+	padding: 0 0 0 5px;
 	margin: 0 2px;
 }
 #sidebar ul.sidemenu li::before {
     content: "#";
     color: #2688b1;
     padding-right: 2px;
+}
+#sidebar ul.sidemenu .h2-side {
+    margin-left: 1.5em;
+    line-height: 1.3em;
+    padding: 3px 0 3px 5px;
+}
+#sidebar ul.sidemenu .h2-side a {
+    color: #7eb0d8 !important;
+}
+
+#sidebar ul.sidemenu li.h2-side::before {
+    color: #7eb0d8;
 }
 
 * html body #sidebar ul.sidemenu li { height: 1%; }

@@ -1,35 +1,31 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh" lang="zh">
-
 <head>
-
 <title><%- title %> - THSCSLab</title>
-
 <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
 <meta name="author" content="JieJiSS" />
 <meta name="description" content="The homepage of Tsinghua Highschool Computer Science Laboratory" />
 <meta name="keywords" content="THSITG, THSCSLab, Tsinghua Highschool, 清华附中, 高等项目研究实验室, 高研实验室, 高研" />
 <meta name="robots" content="index, follow, noarchive" />
-
 <link rel="stylesheet" type="text/css" media="screen" href="../assets/css/index.css" />
-
 <link rel="stylesheet" href="../assets/css/atom-one-light.css">
 <script src="../assets/js/jquery-3.2.1.min.js" type="application/javascript"></script>
 <script src="../assets/js/highlight.pack.js" type="application/javascript"></script>
 <script type="application/javascript">
     function loaded() {
-		var titles = $("#main h1");
+		var titles = $("#main h1, #main h2");
 		var sides = $("ul.sidemenu#sides");
         for(var i = 0; i < titles.length; i++) {
 			var n = titles.get(i).innerText.replace(/\s/g, "").toLowerCase();
 			titles.get(i).parentNode.insertBefore($("<a>").prop("name", n).get(0), titles[i]);
-			var a = $('<li><a href="#' + n + '">');
-			a.get(0).childNodes[0].innerText = titles.get(i).innerText;
-			a.appendTo(sides);
+			var li = $('<li><a href="#' + n + '">');
+            li.get(0).childNodes[0].innerText = titles.get(i).innerText;
+            if(titles.get(i).nodeName.toLowerCase() === "h2") {
+                $(li.get(0)).attr("class", "h2-side");
+            }
+			li.appendTo(sides);
         }
     }
-
     if (window.attachEvent) {  
         window.attachEvent("onload", loaded);
     } else if (window.addEventListener) {  
@@ -46,14 +42,13 @@
         <div id="header">
             <h1 id="logo">THSCSLab<span class="less-gray" style="font-weight: normal; font-size: 0.6em; padding-bottom: 5px;">高研实验室</span></h1>
             <h2 id="slogan" style="font-weight: normal; font-size: 100%;">纸曲笔伏霍音起，疑似圣驾过丽沟。</h2>
-            <div id="searchform">
+            <!--<div id="searchform" style="display: none;">
                 <form method="post" class="search" action="#" >
                     <p><input name="search_query" class="textbox" type="text" placeholder="搜索文章" />
                       <input class="button" type="submit" value="搜索" /></p>
                 </form>
-            </div>
+            </div>-->
         </div>
-        <!-- menu -->
         <div id="menu">
             <ul style="font-weight: normal; font-size: 111%;">
                 <li id="current"><a href="../index.html"><span>Home</span></a></li>
@@ -67,10 +62,7 @@
                 <h1>Description</h1>
                 <p id="description"><%- description %></p>
                 <p class="post-footer">
-					<!--
-					<a href="#comments" class="comments">Comments (comment_number)</a>
-					-->
-                    <span class="date">发布时间：<span id="post_time"><%- post_date %></span></span>
+                    <span class="date">发布日期：<span id="post_time"><%- post_date %></span></span>
                     <span class="comments">文章作者：<span id="author"><%- author %></span></span>
                 </p>
                 <%- main_html %>
@@ -83,9 +75,10 @@
                     });
                 });
             </script>
-            <div id="sidebar">
+            <div id="sidebar" style="margin-top: 10px;">
                     <h1>文章目录</h1>
                     <ul class="sidemenu" id="sides">
+                    <noscript style="padding-left: 3px;">JavaScript code support is required.</noscript>
                     </ul>
             </div>
         <!--End content-wrap-->
@@ -101,6 +94,13 @@
         </div>
 <!-- END Wrap -->
 </div>
-
+<script>
+    function slideMenu () {
+        var y = window.pageYOffset;
+        var bar = document.getElementById("sidebar");
+        bar.style = "margin-top: " + (10 - y > -120 ? 10 - y : -120) + "px";
+    }
+    window.addEventListener("scroll", slideMenu);
+</script>
 </body>
 </html>

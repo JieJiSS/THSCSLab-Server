@@ -7,6 +7,8 @@ const toSafePath = require("../scripts/toSafePath");
 const login = require("./login.js");
 const send403 = require("../scripts/send403");
 
+const sleep = require("../debug/sleep");
+
 router.get("/", async (ctx, next) => {
     ctx.type = "html";
     ctx.body = await readFile(path.join(__dirname, "views", "index.html"));
@@ -34,7 +36,7 @@ router.get("/manage", async (ctx, next) => {
 });
 
 router.get(/^\/assets\/\S+$/, async (ctx, next) => {
-    console.log("/assets");
+    // DEBUG: await sleep(1000);
     const file = toSafePath(ctx.url);
     ctx.type = getExt(file);
     _path = path.join(__dirname, "..", file);

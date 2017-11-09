@@ -12,14 +12,12 @@ const md = require("markdown-it")({
     linkify: true,
     typographer: false,
 });
-const util = require("util");
 
 let MongoClient = require("mongodb").MongoClient;
 const DB_CONN_STR = require("../scripts/getDB");
 /*
 let getData = function(db, title) {
     return new Promise((resolve, reject) => {
-        // 连接到表 blog
         let collection = db.collection("blog");
         var where = { title: title }; // search by title
         collection.find(where).toArray(function(err, result) {
@@ -41,7 +39,10 @@ router.get("/:title", async (ctx, next) => {
     let obj = result[0];
     */
     const fpath = path.join(__dirname, "../md/", ctx.params.title + ".md");
-    const mdsource = (await readFile(fpath)).toString();
+    const mdsource = (await readFile(fpath))
+        .toString()
+        .replace("\uFEFF", "")
+        .replace(/^(#+)([^\s#])/gim, "$1 $2");
     const html = md.render(mdsource);
     const modified = (await stat(fpath)).mtime.toDateString();
     let obj = {
