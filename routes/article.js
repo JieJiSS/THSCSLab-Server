@@ -13,6 +13,8 @@ const md = require("markdown-it")({
     typographer: false,
 });
 
+const slideList = require("../config/slideList.js");
+
 let MongoClient = require("mongodb").MongoClient;
 const DB_CONN_STR = require("../scripts/getDB");
 /*
@@ -44,6 +46,14 @@ router.get("/:title", async (ctx, next) => {
         .replace("\uFEFF", "")
         .replace(/^(#+)([^\s#])/gim, "$1 $2");
     const html = md.render(mdsource);
+    let hasSlide = false, slideImgs = [], slideParent = null;
+    console.log(slideList, ctx.params.title);
+    if(slideList.hasOwnProperty(ctx.params.title)) {
+        hasSlide = true;
+        slideImgs = slideList[ctx.params.title].images || [];
+        console.log(slideImgs);
+        slideParent = slideList[ctx.params.title]["parent-query"] || "";
+    }
     const modified = (await stat(fpath)).mtime.toDateString();
     let obj = {
         title: ctx.params.title,
@@ -52,26 +62,38 @@ router.get("/:title", async (ctx, next) => {
         author: "THSCSLab",
         post_date: modified,
     };
-    if (obj === null || obj === undefined) {
+    /*if (obj === null || obj === undefined) {
         obj = {};
         console.log(
             new Date().toJSON() + " - 502 - obj is null or undefined; title =",
             ctx.params.title
         );
     }
-    delete obj._id;
-    ctx.body = await ctx.render("article", {
-        title: toTitle(obj.title),
-        description: obj.description,
-        main_html: obj.main_html,
-        post_date: obj.post_date,
-        author: obj.author || ""
-    });
+    delete obj._id;*/
+    if(hasSlide) {
+        console.log("slide!", slideImgs);
+        ctx.body = await ctx.render("slide", {
+            title: toTitle(obj.title),
+            description: obj.description,
+            main_html: obj.main_html,
+            post_date: obj.post_date,
+            author: obj.author || "",
+            images: slideImgs,
+        });
+    } else { 
+        ctx.body = await ctx.render("article", {
+            title: toTitle(obj.title),
+            description: obj.description,
+            main_html: obj.main_html,
+            post_date: obj.post_date,
+            author: obj.author || "",
+        });
+    }
 });
 
-async function sleep(ms=0) {
+async function sleep(ms = 0) {
     if(typeof ms !== "number")
-        throw new TypeError("ms is not a number (in async sleep(...))")
+        throw new TypeError("ms is not a number (in async sleep(...))");
     return new Promise((resolve, reject) => {
         setTimeout(resolve, ms);
     });

@@ -2,7 +2,7 @@
 
 body {
 	background: #FFF;
-	font: 16px/2.1em 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, Sans-Serif;
+	font: 16px/2.1em 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, Sans-Serif !important;
 	color: #555;
 	text-align: center;
 }
@@ -21,8 +21,8 @@ a:hover {
 }
 /* headers */
 h1, h2, h3 {
-	font-family: Verdana, Tahoma, 'Trebuchet MS', Sans-serif;
-    font-weight: normal;
+	font-family: Verdana, Tahoma, 'Trebuchet MS', Sans-serif !important;
+    font-weight: normal !important;
     color: #007cb3;
 }
 h1 { font-size: 189%; }
@@ -68,7 +68,7 @@ code {
   text-align: left;
   display: inline;
   overflow: auto;  
-  font: 500 1em/1.5em 'Lucida Console', 'courier new', monospace ;
+  font: 500 1em/1.5em 'Lucida Console', 'courier new', monospace !important;
   white-space: pre;
   background: #FAFAFA;
   border: 1px solid #f2f2f2;  
@@ -125,7 +125,7 @@ textarea {
 }
 input.button { 
 	margin-right: -4px; 
-	font: bolder 12px Arial, Sans-serif; 
+	font: bolder 12px Arial, Sans-serif !important; 
 	border: 1px solid #CCC; 
 	padding: 0 3px; 
 	background: #FFF;
@@ -182,7 +182,7 @@ form.search input.button {
 #header h1#logo {
 	position: absolute;
 	margin: 0; padding: 0;
-	font: normal 40px 'Trebuchet MS', Arial, Sans-serif;
+	font: normal 40px 'Trebuchet MS', Arial, Sans-serif !important;
 	letter-spacing: -1px;
 	color: #FFF;
 	text-transform: none;
@@ -194,7 +194,7 @@ form.search input.button {
 	position: absolute;
 	z-index: 9999999;
 	margin: 0; padding: 0;
-	font: bold 12px 'Trebuchet MS', Arial, Sans-serif;
+	font: bold 12px 'Trebuchet MS', Arial, Sans-serif !important;
 	text-transform: none;
 	color: #FFF;
 	
@@ -213,7 +213,7 @@ form.search input.button {
 	height: 30px;
 	background: #b7b8bc;
 	margin: 0;
-	font: bolder 12px/30px 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, Sans-Serif;
+	font: bolder 12px/30px 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, Sans-Serif !important;
 }
 #menu ul{
 	margin: 0; padding: 0 0 0 40px;
@@ -253,7 +253,7 @@ form.search input.button {
 #main h1::before {
     color: #007cb3; 
     content: "#";
-    font-family: Consolas, "Lucida Console", monospace;
+    font-family: Consolas, "Lucida Console", monospace !important;
 }
 
 .post-footer {
@@ -286,7 +286,7 @@ form.search input.button {
 #sidebar h1 {
 	margin: 10px 0 0 0; 
 	padding: 5px 10px;
-	font: bold 1.1em 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, Sans-Serif;
+	font: bold 1.1em 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, Sans-Serif !important;
 	color: #FFF;	
 	background: #B6B8BB;	
 }
@@ -336,7 +336,7 @@ form.search input.button {
 #footer {
 	clear: both;
 	color: #2a95c1;
-	font: normal 90% 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, Sans-Serif;
+	font: normal 90% 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, Sans-Serif !important;
 	background: #eee;	
 	width: 1024px;
 	height: 60px;

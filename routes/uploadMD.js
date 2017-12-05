@@ -44,11 +44,9 @@ router.post("/upload-md", upload.single("file"), async (ctx, next) => {
         .toString()
         .replace("\uFEFF", "")
         .replace(/^(#+)([^\s#])/gim, "$1 $2");
-    console.log(data);
     let html = md.render(data);
-    console.log(html);
-    let name = getFilename(html),
-        fpath = path.join(__dirname, "../md", name);
+    let name = getFilename(html);
+    let fpath = path.join(__dirname, "../md", name);
     try {
         if((await stat(fpath)).isFile()) {
             let showName = name.replace(/\.md$/i, "");
