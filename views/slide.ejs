@@ -112,62 +112,6 @@
         </div>
         <!--Content Wrap -->
         <div id="content-wrap">
-            <div class="container">
-                <div class="row headline">
-                    <!-- Begin Headline -->
-                    <div class="span8">
-                        <div class="flexslider">
-            
-                            <div class="flex-viewport" style="overflow: hidden; position: relative;">
-                                <ul class="slides" style="width: 1400%; transition-duration: 0.6s; transform: translate3d(-1904px, 0px, 0px);">
-                                    <% for(var i = 0; i < images.length; i++) {%>
-                                        <% if(i === 0) {%>
-                                            <li class="clone flex-active-slide" style="width: 476px; float: left; display: block;">
-                                                <a href="javascript:void(0);">
-                                                    <img src="../assets/images/gallery/<%- images[i] %>" alt>
-                                                </a>
-                                            </li>
-                                        <% } else { %>
-                                            <li style="width: 476px; float: left; display: block;" class>
-                                                <a href="javascript:void(0);">
-                                                    <img src="../assets/images/gallery/<%- images[i] %>" alt>
-                                                </a>
-                                            </li>
-                                        <% } %>
-                                    <% } %>
-                                </ul>
-                            </div>
-                            <ol class="flex-control-nav flex-control-paging">
-                                <li>
-                                    <a class="flex-active">1</a>
-                                </li>
-                                <li>
-                                    <a class="flex-active">2</a>
-                                </li>
-                                <li>
-                                    <a class="flex-active">3</a>
-                                </li>
-                                <li>
-                                    <a class="flex-active">4</a>
-                                </li>
-                                <li>
-                                    <a class="flex-active">5</a>
-                                </li>
-                            </ol>
-                            <ul class="flex-direction-nav">
-                                <li>
-                                    <a class="flex-prev" href="#">Previous</a>
-                                </li>
-                                <li>
-                                    <a class="flex-next" href="#">Next</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-            
-                </div>
-                <!-- End Headline -->
-            </div>
             <div id="main">
                 <h1>Description</h1>
                 <p id="description">
@@ -185,7 +129,9 @@
                         </span>
                     </span>
                 </p>
-                <%- main_html %>
+                <div id="content">
+                    <%- main_html %>
+                </div>
             </div>
             <script type="application/javascript">
                 var ctx = location.origin;
@@ -203,6 +149,49 @@
             </div>
             <!--End content-wrap-->
         </div>
+        <script src="../assets/js/jquery.xpath.js"></script>
+        <script>
+        var htmlStr = '<div class="container">\n\
+                <div class="row headline">\n\
+                    <!-- Begin Headline -->\n\
+                    <div style="width: 600px; float: left; min-height: 1px; margin-left: <%- (671 - imageSetting.width) / 2 + 30%>px; margin-top: 5px">\n\
+                        <div class="flexslider">\n\
+            \n\
+                            <div class="flex-viewport" style="overflow: hidden; position: relative;">\n\
+                                <ul class="slides" style>\n\
+                                    <% for(var i = 0; i < images.length; i++) {%>\
+                                        <% if(i === 0) {%>\n\
+                                            <li class="clone" style>\n\
+                                                <a href="javascript:void(0);">\n\
+                                                    <img src="../assets/images/gallery/<%- _title %>/<%- images[i] %>" alt>\n\
+                                                </a>\n\
+                                            </li>\n\
+                                        <% } else { %>\n\
+                                            <li class>\n\
+                                                <a href="javascript:void(0);">\n\
+                                                    <img src="../assets/images/gallery/<%- _title %>/<%- images[i] %>" alt>\n\
+                                                </a>\n\
+                                            </li>\n\
+                                        <% } %>\
+                                    <% } %>\n\
+                                </ul>\n\
+                            </div>\n\
+                            <ul class="flex-direction-nav">\n\
+                                <li>\n\
+                                    <a class="flex-prev" href="#">Previous</a>\n\
+                                </li>\n\
+                                <li>\n\
+                                    <a class="flex-next" href="#">Next</a>\n\
+                                </li>\n\
+                            </ul>\n\
+                        </div>\n\
+                    </div>\n\
+            \n\
+                </div>\n\
+                <!-- End Headline -->\n\
+            </div>';
+        $(htmlStr).insertAfter($("<%- imageSetting.insertAfter || '#content' %>").get(<%- imageSetting.nodeIndex%>));
+        </script>
         <!-- Footer -->
         <div id="footer">
             <p>

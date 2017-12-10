@@ -46,8 +46,8 @@ ul, ol {
 /* images */
 img {
 	background: #FAFAFA;
-    border: 1px solid #DCDCDC;
-	padding: 8px;
+    /*border: 1px solid #DCDCDC;
+	padding: 8px;*/
 }
 img.float-right {
   margin: 5px 0px 5px 10px;  
