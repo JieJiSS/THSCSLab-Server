@@ -149,12 +149,12 @@
             </div>
             <!--End content-wrap-->
         </div>
-        <script src="../assets/js/jquery.xpath.js"></script>
+        <!--<script src="../assets/js/jquery.xpath.js"></script>-->
         <script>
         var htmlStr = '<div class="container">\n\
                 <div class="row headline">\n\
                     <!-- Begin Headline -->\n\
-                    <div style="width: 600px; float: left; min-height: 1px; margin-left: <%- (671 - imageSetting.width) / 2 + 30%>px; margin-top: 5px">\n\
+                    <div style="width: <%- Math.min(imageSetting.width || 600, 660) %>px; float: left; min-height: 1px; margin-left: <%- (671 - Math.min(imageSetting.width || 600, 660)) / 2 + 30 %>px; margin-top: 5px">\n\
                         <div class="flexslider">\n\
             \n\
                             <div class="flex-viewport" style="overflow: hidden; position: relative;">\n\
@@ -162,13 +162,13 @@
                                     <% for(var i = 0; i < images.length; i++) {%>\
                                         <% if(i === 0) {%>\n\
                                             <li class="clone" style>\n\
-                                                <a href="javascript:void(0);">\n\
+                                                <a>\n\
                                                     <img src="../assets/images/gallery/<%- _title %>/<%- images[i] %>" alt>\n\
                                                 </a>\n\
                                             </li>\n\
                                         <% } else { %>\n\
                                             <li class>\n\
-                                                <a href="javascript:void(0);">\n\
+                                                <a>\n\
                                                     <img src="../assets/images/gallery/<%- _title %>/<%- images[i] %>" alt>\n\
                                                 </a>\n\
                                             </li>\n\
@@ -190,7 +190,7 @@
                 </div>\n\
                 <!-- End Headline -->\n\
             </div>';
-        $(htmlStr).insertAfter($("<%- imageSetting.insertAfter || '#content' %>").get(<%- imageSetting.nodeIndex%>));
+        $(htmlStr).insertAfter($("div#content <%- imageSetting.insertAfter || '' %>").get(<%- imageSetting.nodeIndex%>));
         </script>
         <!-- Footer -->
         <div id="footer">

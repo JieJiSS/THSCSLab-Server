@@ -4,10 +4,12 @@ module.exports = {
             "slider-img-1.jpg",
             "slider-img-2.jpg",
             "slider-img-3.jpg",
-            "slider-img-4.jpg"
+            "slider-img-4.jpg",
+            "slider-img-5.jpg",
+            "slider-img-6.jpg",
         ],
         insertAfter: "h1",
-        nodeIndex: 2,
+        nodeIndex: 0,
         width: 600
     }
 };
