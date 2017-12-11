@@ -7,9 +7,10 @@ module.exports = {
             "slider-img-4.jpg",
             "slider-img-5.jpg",
             "slider-img-6.jpg",
+            "slider-img-7.jpg"
         ],
         insertAfter: "h1",
-        nodeIndex: 0,
+        nodeIndex: 1,
         width: 600
     }
 };

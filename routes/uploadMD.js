@@ -44,8 +44,27 @@ router.post("/upload-md", upload.single("file"), async (ctx, next) => {
         .toString()
         .replace("\uFEFF", "")
         .replace(/^(#+)([^\s#])/gim, "$1 $2");
+    if(!data.trim().startsWith("#") || data.trim()[1] === "#") {
+        ctx.body = await ctx.render("error", {
+            message: "解析错误：该Markdown文件应该以恰好一个#作为开始，用于自动路径分配。",
+            error: {
+                status: 400,
+                stack: "400 Bad Request"
+            }
+        });
+        console.log("error1");
+        return;
+    }
     let html = md.render(data);
     let name = getFilename(html);
+    if(typeof name === "object") {
+        ctx.body = await ctx.render("error", {
+            message: name.message,
+            error: name
+        });
+        console.log("error2");
+        return;
+    }
     let fpath = path.join(__dirname, "../md", name);
     try {
         if((await stat(fpath)).isFile()) {

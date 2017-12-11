@@ -44,7 +44,16 @@ function getFilename(html = "") {
     if(!html.trim()) {
         throw new TypeError("Error In getFilename(...): invalid parameter `html`");
     }
-    let filename = html.split(/(\<h1\>|<\/h1>)/i)[2];
+    let filename;
+    try {
+        filename = html.split(/(\<h1\>|<\/h1>)/i)[2];
+    } catch (err) {
+        return {
+            message: "未能成功分配网址路由：Markdown文件标题解析错误。",
+            status: 500,
+            stack: "In getFilename(...)"
+        }
+    }
     filename = parseFilename(filename);
     return filename;
 }
