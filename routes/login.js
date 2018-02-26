@@ -1,35 +1,56 @@
 "use strict";
 
-let MongoClient = require("mongodb").MongoClient;
-const DB_CONN_STR = require("../scripts/getDB");
+const fs = require("fs");
+const path = require("path");
+const writeFile = require("util").promisify(fs.writeFile);
 
-async function login(session, json) {
-    const db = await MongoClient.connect(DB_CONN_STR);
-    let coll = db.collection("user");
-    return new Promise(async (resolve, reject) => {
-        //resolve(await coll.find({username: "1"}).toArray());
-        let result = await coll.findOneAndUpdate(
-            {
-                username: json.username,
-                password: json.password
-            },
-            {
-                $set: {
-                    username: json.username,
-                    hash: json.password,
-                    session: session
-                }
-            }
-        );
-        if (result.lastErrorObject.updatedExisting === true && result.ok === 1) {
-            resolve("success");
-        } else if (result.lastErrorObject.updatedExisting === true && result.ok === 0) {
-            resolve("write DB failed")
-        }
-        if (result.lastErrorObject.updatedExisting === false) {
-            resolve("wrong authentication");
-        }
-    });
+const LOGIN_CACHE = Object.create(null);
+const USER_CACHE_PATH = path.join(__dirname, "../user/", "user.json");
+let USER_CACHE = require(USER_CACHE_PATH);
+
+function login(session, json) {
+    if(USER_CACHE[json.username] === json.password) {
+        LOGIN_CACHE[session] = true;
+        return "Login successful."
+    }
 }
 
-module.exports = login;
+function logout(session) {
+    LOGIN_CACHE[session] = undefined;
+}
+
+function isLogin(session) {
+    if(LOGIN_CACHE[session]) {
+        return true;
+    }
+    return false;
+}
+
+function recache() {
+    USER_CACHE = require(USER_CACHE_PATH);
+}
+
+async function adduser(username, password_hash) {
+    password_hash = password_hash.toLowerCase();
+    if(username.trim() === "")
+        return "Error: Invalid username.";
+    if(username.trim().length > 32)
+        return "Error: Username too long.";
+    if(password_hash.length !== 64 || !isValidSHA256(password_hash))
+        return "Error: Password hash check failed."
+    USER_CACHE = require(USER_CACHE_PATH);
+    if(username in USER_CACHE)
+        return "Error: This user already exists.";
+    USER_CACHE[username] = password_hash;
+}
+
+function isValidSHA256(hash) {
+    return /^[a-z0-9]{64}$/.test(hash);
+}
+
+module.exports = {
+    login,
+    isLogin,
+    adduser,
+    recache,
+};

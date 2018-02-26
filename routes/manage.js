@@ -9,26 +9,28 @@ const send403 = require("../scripts/send403");
 
 const sleep = require("../debug/sleep");
 
-router.get("/", async (ctx, next) => {
+router.get("/login", async (ctx, next) => {
     ctx.type = "html";
     ctx.body = await readFile(path.join(__dirname, "views", "index.html"));
-    console.log("/");
+    console.log("/login");
 });
 
 router.post("/login-json", async (ctx, next) => {
     let json = ctx.request.body;
     let sess = ctx.session.hash;
-    ctx.body = await login(sess, json);
+    ctx.body = await login.login(sess, json);
 });
 
 router.post("/login-form", async (ctx, next) => {
     let json = ctx.request.body;
+    console.log(json);
     let sess = ctx.session.hash;
-    ctx.body = await login(sess, json);
+    result = login.login(sess, json);
+    ctx.body = String(result);
 });
 
 router.get("/manage", async (ctx, next) => {
-    if(!("hash" in ctx.session) || !isLogined(ctx.session.hash)) {
+    if(!("hash" in ctx.session) || !login.isLogin(ctx.session.hash)) {
         return send403(ctx);
     }
     ctx.type = ".html";
