@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>登录</title>
+    <link href="./assets/index/style_log.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="./assets/index/style.css">
+    <link rel="stylesheet" type="text/css" href="./assets/index/userpanel.css">
+</head>
+
+<body class="login" mycollectionplug="bind">
+    <div class="login_m">
+        <div class="login_logo">
+            <img src="./assets/index/logo.png" width="196" height="46">
+        </div>
+        <div class="login_boder">
+            <form method="POST" action="/signup" id="signup-form">
+                <div class="login_padding" id="login_model">
+                    <h2>用户名/邮箱：</h2>
+                    <label>
+                        <input type="text" name="username" id="username" class="txt_input txt_input2" placeholder="用户名">
+                    </label>
+                    <h2>密码：</h2>
+                    <label>
+                        <input type="password" id="userpwd" class="txt_input" placeholder="密码">
+                        <input type="password" id="hash" name="password" style="display: none;">
+                    </label>
+                    <h2>重复密码：</h2>
+                    <label>
+                        <input type="password" id="repeatpwd" class="txt_input" placeholder="重复密码">
+                    </label>
+                    <p class="forgot" style="margin-top: 5px;">
+                        <a href="/login">登录</a>
+                    </p>
+                    <div class="rem_sub">
+                        <label>
+                            <input type="submit" class="sub_button" id="signup-button" value="注册" style="opacity: 0.7; margin-top: 10px;">
+                        </label>
+                        <script src="./assets/index/hash.js"></script>
+                        <script>
+                            function $$(id) {
+                                return document.getElementById(id);
+                            }
+                            $$("signup-button").addEventListener("click", function (ev) {
+                                $$("hash").value = sha256_digest($$("userpwd").value);
+                            });
+                        </script>
+                    </div>
+                </div>
+            </form>
+            <script src="js/swal.js"></script>
+            <script>
+            $$("signup-form").addEventListener("submit", function (ev) {
+                if ($$("username").value.length === 0 || $$("username").value.trim() === "") {
+                    swal({
+                        type: 'error',
+                        title: 'Oops...',
+                        text: '用户名不能为空。'
+                    });
+                    ev.preventDefault && ev.preventDefault();
+                    ev.stopImmediatePropagation && ev.stopImmediatePropagation();
+                    return false;
+                } else if ($$("userpwd").value.length === 0 || $$("userpwd").value.trim() === "") {
+                    swal({
+                        type: 'error',
+                        title: 'Oops...',
+                        text: '密码不能为空。'
+                    });
+                    ev.preventDefault && ev.preventDefault();
+                    ev.stopImmediatePropagation && ev.stopImmediatePropagation();
+                    return false;
+                } else if ($$("userpwd").value.length < 6) {
+                    swal({
+                        type: 'error',
+                        title: 'Oops...',
+                        text: '为了您的账号安全考虑，密码长度不应小于6位。'
+                    });
+                    ev.preventDefault && ev.preventDefault();
+                    ev.stopImmediatePropagation && ev.stopImmediatePropagation();
+                    return false;
+                } else if ($$("repeatpwd").value !== $$("userpwd").value) {
+                    swal({
+                        type: 'error',
+                        title: 'Oops...',
+                        html: '您在<strong>密码</strong>栏填写的内容和在<strong>重复密码</strong>栏填写内容不一样。'
+                    });
+                    ev.preventDefault && ev.preventDefault();
+                    ev.stopImmediatePropagation && ev.stopImmediatePropagation();
+                    return false;
+                }
+            });
+            </script>
+            <script>
+            var err = "<%- error %>";
+            if(err !== "") {
+                swal({
+                    type: "error",
+                    title: "注册失败",
+                    html: err
+                });
+            }
+            </script>
+        </div>
+        <!--login_boder end-->
+    </div>
+    <!--login_m end-->
+</body>
+
+</html>

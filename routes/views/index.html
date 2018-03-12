@@ -8,19 +8,19 @@
 <body class="login" mycollectionplug="bind">
 <div class="login_m">
 <div class="login_logo"><img src="./assets/index/logo.png" width="196" height="46"></div>
-<div class="login_boder">
+<div class="login_boder small_box">
 <form method="POST" action="./login-form">
 <div class="login_padding" id="login_model">
   <h2>用户名/邮箱：</h2>
   <label>
-    <input type="text" name="username" id="username" class="txt_input txt_input2" placeholder="用户名">
+    <input type="text" name="username" id="username" class="txt_input txt_input2 classname1" placeholder="用户名">
   </label>
   <h2>密码：</h2>
   <label>
-    <input type="password" id="userpwd" class="txt_input" placeholder="密码">
+    <input type="password" id="userpwd" class="txt_input classname1" placeholder="密码">
     <input type="password" id="hash" name="password" style="display: none;">
   </label>
-  <p class="forgot"><a id="iforget" href="#">忘记密码？</a></p>
+  <p class="forgot"><a href="/signup">注册</a></p>
   <div class="rem_sub">
     <label>
       <input type="submit" class="sub_button" id="button" value="登录" style="opacity: 0.7;">
@@ -37,24 +37,6 @@
   </div>
 </div>
 </form>
-<div id="forget_model" class="login_padding" style="display: none">
-<br />
-   <h1>忘记密码</h1>
-   <br>
-   <div class="forget_model_h2">注册邮箱：</div>
-    <label>
-    <input type="text" id="usrmail" class="txt_input txt_input2">
-   </label>
-  <div class="rem_sub">
-  <div class="rem_sub_l">
-   </div>
-    <label>
-     <input type="submit" class="sub_buttons" name="button" id="Retrievenow" value="继续" style="opacity: 0.7;">　　
-     <input type="submit" class="sub_button" name="button" id="denglou" value="返回" style="opacity: 0.7;">
-    </label>
-  </div>
-</div>
-<!--login_padding  Sign up end-->
 </div><!--login_boder end-->
 </div><!--login_m end-->
 </body></html>

@@ -16,22 +16,6 @@ const md = require("markdown-it")({
 const slideList = require("../config/slideList.js");
 const CONFIG  = require("../config/articleConfig.json");
 
-let MongoClient = require("mongodb").MongoClient;
-const DB_CONN_STR = require("../scripts/getDB");
-/*
-let getData = function(db, title) {
-    return new Promise((resolve, reject) => {
-        let collection = db.collection("blog");
-        var where = { title: title }; // search by title
-        collection.find(where).toArray(function(err, result) {
-            if (err) {
-                reject(err);
-            }
-            resolve(result);
-        });
-    });
-};
-*/
 router.prefix("/article");
 
 router.get("/:title", async (ctx, next) => {
@@ -71,16 +55,7 @@ router.get("/:title", async (ctx, next) => {
         author: articleConfig.author || "THSCSLab",
         post_date: post_date,
     };
-    /*if (obj === null || obj === undefined) {
-        obj = {};
-        console.log(
-            new Date().toJSON() + " - 502 - obj is null or undefined; title =",
-            ctx.params.title
-        );
-    }
-    delete obj._id;*/
     if(hasSlide) {
-        //console.log("slide!", slideImgs);
         ctx.body = await ctx.render("slide", {
             title: obj.title,
             _title: ctx.params.title,

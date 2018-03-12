@@ -5,34 +5,50 @@ const render = require("koa-ejs");
 const path = require("path");
 const json = require("koa-json");
 const hash = require("./scripts/hash");
-const session = require("koa-session");
+const session = require("koa-session-minimal");
+const MysqlStore = require("koa-mysql-session");
 const router = require("koa-router")();
 const onerror = require("koa-onerror");
 const bodyparser = require("koa-bodyparser");
 const logger = require("koa-logger");
+const staticCache = require("koa-static-cache");
 
 const manage = require("./routes/manage");
 const article = require("./routes/article");
 const uploadMD = require("./routes/uploadMD");
+const config = require("./scripts/dbConfig");
 
 // error handler
 onerror(app);
 
-const CONFIG = {
-    key: "_kas",
-    maxAge: "session",
-    signed: false,
+// middlewares
+//app.use(session(CONFIG, app));
+
+const sessionMysqlConfig = {
+    user: config.database.USERNAME,
+    password: config.database.PASSWORD,
+    database: config.database.DATABASE,
+    host: config.database.HOST
 };
 
-// middlewares
-app.use(session(CONFIG, app));
+// 配置session中间件
+app.use(session({
+  key: 'USER_SID',
+  store: new MysqlStore(sessionMysqlConfig)
+}))
+
+// 缓存
+app.use(staticCache(path.join(__dirname, './assets'), { dynamic: true }, {
+    maxAge: 3 * 24 * 60 * 60
+}));
 
 app.use(
     bodyparser({
         enableTypes: ["json", "form", "text"],
         onerror: function(err, ctx) {
             ctx.throw("body parse error", 422);
-        }
+        },
+        formLimit: "1mb"
     })
 );
 app.use(json());
