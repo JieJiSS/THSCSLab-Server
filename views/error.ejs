@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Error - 404</title>
+    <title>Error - <%- error.status %></title>
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
     <style>
@@ -27,9 +27,8 @@
         <h1>Error <%- error.status %></h1>
         <p><%- message %></p>
 
-        <pre>
-        <code><%- error.stack %></code>
-      </pre>
+    <pre>
+    <code><%- error.stack %></code></pre>
 
     </div>
 </body>

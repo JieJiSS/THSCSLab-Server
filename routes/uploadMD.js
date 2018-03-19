@@ -7,6 +7,7 @@ const fs = require('fs');
 const { promisify } = require('bluebird');
 const { parseFilename, getFilename } = require("../scripts/toTitle");
 const toSafePath = require("../scripts/toSafePath");
+const antiInject = require("../scripts/antiInject");
 
 const rename = promisify(fs.rename);
 const readFile = promisify(fs.readFile);
@@ -52,7 +53,6 @@ router.post("/upload-md", upload.single("file"), async (ctx, next) => {
                 stack: "400 Bad Request"
             }
         });
-        console.log("error1");
         return;
     }
     let html = md.render(data);
@@ -62,19 +62,23 @@ router.post("/upload-md", upload.single("file"), async (ctx, next) => {
             message: name.message,
             error: name
         });
-        console.log("error2");
         return;
     }
     let fpath = path.join(__dirname, "../md", name);
     try {
         if((await stat(fpath)).isFile()) {
             let showName = name.replace(/\.md$/i, "");
-            ctx.body = {
-                success: false,
-                filename: null,
-                message: "文件已存在：" + showName,
-                urlpath: "/article/" + showName,
-            };
+            ctx.status = 403;
+            ctx.type = ".html";
+            ctx.body = await ctx.render("error", {
+                message: "文件已存在：<code>" +
+                    antiInject(showName) +
+                    "</code>，请更换你的Markdown文档的首个大标题的内容并重试。",
+                error: {
+                    stack: "Error 403 at /article/" + showName,
+                    status: 403
+                }
+            });
             unlink(filePath, err => {
                 if(err) {
                     console.error("删除失败：", err.message);
@@ -86,12 +90,15 @@ router.post("/upload-md", upload.single("file"), async (ctx, next) => {
     try {
         await rename(filePath, fpath); // @TODO 直接写入html，只渲染一次。
     } catch (err) {
-        ctx.body = {
-            success: false,
-            filename: null,
+        ctx.status = 500;
+        ctx.type = ".html";
+        ctx.body = await ctx.render("error", {
             message: `重命名失败：${err.message.replace(__dirname, "./")}。`,
-            urlpath: null,
-        };
+            error: {
+                status: 500,
+                stack: ""
+            }
+        });
         unlink(filePath, err => {
             if(err) {
                 console.error("删除失败：", err.message);
@@ -100,6 +107,7 @@ router.post("/upload-md", upload.single("file"), async (ctx, next) => {
         return;
     }
     let showName = name.replace(/\.md$/i, "");
+    console.log("Request:", ctx.request);
     ctx.type = ".html";
     ctx.body = `<html>
     <head>

@@ -1,4 +1,4 @@
-# MidiShow-MidiDownloader-vbs
+# MidiShow MidiDownloader vbs
 a simple vbscript file use to download midi(s) from www.midishow.com.
 
 Usage: doubleclick the `.vbs` script and enjoy :D

@@ -13,8 +13,10 @@ function toTitle (str) {
 }
 
 function parseFilename (fn = "") {
-    if(/^[0-9a-zA_Z\.\-\s]+$/.test(fn)) { //全英文标题
+    console.log(fn);
+    if(/^[0-9a-zA-Z\.\-\s]+$/.test(fn)) { //全英文标题
         let words = fn.replace(/\.md$/i, "").toLowerCase().split(/\s+/);
+        console.log(words);
         return words.join("-") + ".md";
     }
     let joinedPinyin = joinArray(

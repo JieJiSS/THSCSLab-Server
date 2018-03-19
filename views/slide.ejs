@@ -8,10 +8,10 @@
     <meta name="description" content="The homepage of Tsinghua Highschool Computer Science Laboratory" />
     <meta name="keywords" content="THSITG, THSCSLab, Tsinghua Highschool, 清华附中, 高等项目研究实验室, 高研实验室, 高研" />
     <meta name="robots" content="index, follow, noarchive" />
-    <link rel="stylesheet" type="text/css" media="screen" href="../assets/css/index.css" />
-    <link rel="stylesheet" href="../assets/css/atom-one-light.css">
-    <script src="../assets/js/jquery-3.2.1.min.js" type="application/javascript"></script>
-    <script src="../assets/js/highlight.pack.js" type="application/javascript"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/index.css" />
+    <link rel="stylesheet" href="/assets/css/atom-one-light.css">
+    <script src="/assets/js/jquery-3.2.1.min.js" type="application/javascript"></script>
+    <script src="/assets/js/highlight.pack.js" type="application/javascript"></script>
     <script type="application/javascript">
         function loaded() {
             var titles = $("#main h1, #main h2");
@@ -36,23 +36,23 @@
         }
     </script>
     <!--piccolo-->
-    <!--<link rel="stylesheet" href="../assets/css/bootstrap.css">-->
-    <link rel="stylesheet" href="../assets/css/bootstrap-responsive.css">
-    <link rel="stylesheet" href="../assets/css/prettyPhoto.css">
-    <link rel="stylesheet" href="../assets/css/flexslider.css">
-    <!--<link rel="stylesheet" href="../assets/css/custom-styles.css">-->
+    <!--<link rel="stylesheet" href="/assets/css/bootstrap.css">-->
+    <link rel="stylesheet" href="/assets/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="/assets/css/prettyPhoto.css">
+    <link rel="stylesheet" href="/assets/css/flexslider.css">
+    <!--<link rel="stylesheet" href="/assets/css/custom-styles.css">-->
     
     <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-        <link rel="stylesheet" href="../assets/css/style-ie.css"/>
+        <link rel="stylesheet" href="/assets/css/style-ie.css"/>
     <![endif]-->
     
     <!-- JS
     ================================================== -->
-    <script src="../assets/js/bootstrap.js"></script>
-    <script src="../assets/js/jquery.prettyPhoto.js"></script>
-    <script src="../assets/js/jquery.flexslider.js"></script>
-    <script src="../assets/js/jquery.custom.js"></script>
+    <script src="/assets/js/bootstrap.js"></script>
+    <script src="/assets/js/jquery.prettyPhoto.js"></script>
+    <script src="/assets/js/jquery.flexslider.js"></script>
+    <script src="/assets/js/jquery.custom.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             $("#btn-blog-next").click(function () {
@@ -85,31 +85,7 @@
     <!-- Wrap -->
     <div id="wrap">
         <!-- Header -->
-        <div id="header">
-            <h1 id="logo">THSCSLab
-                <span class="less-gray" style="font-weight: normal; font-size: 0.6em; padding-bottom: 5px;">高研实验室</span>
-            </h1>
-            <h2 id="slogan" style="font-weight: normal; font-size: 100%;">纸曲笔伏霍音起，疑似圣驾过丽沟。</h2>
-        </div>
-        <div id="menu">
-            <ul style="font-weight: normal; font-size: 111%;">
-                <li id="current">
-                    <a href="../index.html">
-                        <span>Home</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="../download.html">
-                        <span>Downloads</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="../about.html">
-                        <span>About</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
+        <% include header.html %>
         <!--Content Wrap -->
         <div id="content-wrap">
             <div id="main">
@@ -149,12 +125,12 @@
             </div>
             <!--End content-wrap-->
         </div>
-        <!--<script src="../assets/js/jquery.xpath.js"></script>-->
+        <!--<script src="/assets/js/jquery.xpath.js"></script>-->
         <script>
         var htmlStr = '<div class="container">\n\
                 <div class="row headline">\n\
                     <!-- Begin Headline -->\n\
-                    <div style="width: <%- Math.min(imageSetting.width || 600, 660) %>px; float: left; min-height: 1px; margin-left: <%- (671 - Math.min(imageSetting.width || 600, 660)) / 2 + 30 %>px; margin-top: 5px; display: block !important;">\n\
+                    <div style="width: <%- Math.min(imageSetting.width || 600, 660) %>px; float: left; min-height: 1px; margin-left: <%- (671 - Math.min(imageSetting.width || 600, 660)) / 2 + 30 %>px !important; margin-top: 5px; display: block !important;">\n\
                         <div class="flexslider">\n\
             \n\
                             <div class="flex-viewport" style="overflow: hidden; position: relative;">\n\
@@ -163,13 +139,13 @@
                                         <% if(i === 0) {%>\n\
                                             <li class="clone" style>\n\
                                                 <a>\n\
-                                                    <img src="../assets/images/gallery/<%- _title %>/<%- images[i] %>" alt>\n\
+                                                    <img src="/assets/images/gallery/<%- _title %>/<%- images[i] %>" alt>\n\
                                                 </a>\n\
                                             </li>\n\
                                         <% } else { %>\n\
                                             <li class>\n\
                                                 <a>\n\
-                                                    <img src="../assets/images/gallery/<%- _title %>/<%- images[i] %>" alt>\n\
+                                                    <img src="/assets/images/gallery/<%- _title %>/<%- images[i] %>" alt>\n\
                                                 </a>\n\
                                             </li>\n\
                                         <% } %>\
@@ -195,17 +171,7 @@
         });
         </script>
         <!-- Footer -->
-        <div id="footer">
-            <p>
-                <span style="padding-right: 45px;">&copy; 2017 THSCSLab</span>
-                <a href="../index.html">Home</a> |
-                <a href="http://validator.w3.org/check/referer">XHTML</a> |
-                <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a> |
-                <a href="http://styleshouts.com">Style</a>
-            </p>
-        </div>
-        <!-- END Wrap -->
-    </div>
+        <% include footer.html %>
     <script>
                 function slideMenu() {
                     var y = window.pageYOffset;

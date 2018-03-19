@@ -10,7 +10,7 @@ module.exports = {
             "slider-img-7.jpg"
         ],
         insertAfter: "h1",
-        nodeIndex: 1,
+        nodeIndex: 0,
         width: 600
     }
 };
