@@ -7,11 +7,61 @@ const path = require("path");
 const { promisify } = require('bluebird');
 const readFile = promisify(fs.readFile);
 const stat = promisify(fs.stat);
+const regex1 = /^slider\s*\(\s*(\w+)\s*\)\s*$/i,
+    regex2 = /^end\s*$/i;
 const md = require("markdown-it")({
     breaks: true,
     langPrefix: "lang-",
     linkify: true,
     typographer: false,
+}).use(require("markdown-it-math"))
+  .use(require('markdown-it-task-lists'))
+  .use(require('markdown-it-container'), 'slider', {
+    validate: function (params) {
+        var str = params.trim();
+        return regex1.test(str) || regex2.test(str);
+    },
+    render: function (tokens, idx) {
+        const token = tokens[idx];
+        const inf = token.info;
+        if (regex1.test(inf)) {
+            let m = toSafeHTML(inf.match(regex1));
+            let UNIT = "px";
+            if(isNaN(m[1])) {
+                if(!isNaN(parseFloat(m[1]))) { // 100.0px
+                    let num = parseFloat(m[1]);
+                    UNIT = getUnit(m[1]);
+                    m[1] = num.toString() + UNIT;
+                }
+            } else {
+                m[1] += "px";
+            }
+            return `<div class="container">
+            <div class="row headline">
+                <!-- Begin Headline -->
+                <div class="headline-slider" style="width: ${m[1]}; margin-left: calc(338.5px - ${parseFloat(m[1])/2}${UNIT}) !important;">
+                    <div class="flexslider">
+                        <div class="flex-viewport" style="overflow: hidden; position: relative;">
+                            <ul class="slides" v-data="width:${m[1]};duration:2" style>\n`;
+        } else if (regex2.test(inf)) {
+            return `</ul>
+            </div>
+            <ul class="flex-direction-nav">
+                <li>
+                    <a class="flex-prev" href="#">Previous</a>
+                </li>
+                <li>
+                    <a class="flex-next" href="#">Next</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- End Headline -->
+</div>\n`;
+        }
+        return '';
+    }
 });
 
 const slideList = require("../config/slideList.js");
@@ -36,12 +86,8 @@ router.get("/:title", async (ctx, next) => {
         let hasSlide = false, slideImgs = [], slideParent = null;
         let imageSetting = null;
         //console.log(slideList, ctx.params.title);
-        if(slideList.hasOwnProperty(ctx.params.title)) {
+        if(html.includes('<div class="flexslider">')) {
             hasSlide = true;
-            imageSetting = slideList[ctx.params.title];
-            slideImgs = slideList[ctx.params.title].images || [];
-            console.log(slideImgs);
-            slideParent = slideList[ctx.params.title]["parent-query"] || "";
         }
         const articleConfig = CONFIG[ctx.params.title] || {};
         let post_date = new Date();
@@ -65,8 +111,6 @@ router.get("/:title", async (ctx, next) => {
                 main_html: obj.main_html,
                 post_date: obj.post_date,
                 author: obj.author || "",
-                images: slideImgs,
-                imageSetting: imageSetting,
             });
         } else { 
             ctx.body = await ctx.render("article", {
@@ -78,6 +122,7 @@ router.get("/:title", async (ctx, next) => {
             });
         }
     } catch (err) {
+        console.log(err);
         ctx.status = 404;
         ctx.type = ".html";
         ctx.body = await ctx.render("error", {
@@ -100,6 +145,33 @@ async function sleep(ms = 0) {
         throw new TypeError("ms is not a number (in async sleep(...))");
     return new Promise((resolve, reject) => {
         setTimeout(resolve, ms);
+    });
+}
+
+function getUnit(str) {
+    switch(true) {
+        case /px$/i.test(str):
+            return "px";
+        case /vh$/i.test(str):
+            return "vh";
+        case /vw$/i.test(str):
+            return "vw";
+        case /em$/i.test(str):
+            return "em";
+        case /rem$/i.test(str):
+            return "rem";
+        case /\%$/i.test(str):
+            return "%";
+        case /pt$/i.test(str):
+            return "pt";
+        default:
+            return "px";
+    }
+}
+
+function toSafeHTML(arr) {
+    return arr.map(str => {
+        return str.replace(/>/g, "&gt;").replace(/</g, "&lt;");
     });
 }
 

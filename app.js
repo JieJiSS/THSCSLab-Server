@@ -16,26 +16,39 @@ const staticCache = require("koa-static-cache");
 const manage = require("./routes/manage");
 const article = require("./routes/article");
 const uploadMD = require("./routes/uploadMD");
-const config = require("./scripts/dbConfig");
+//const config = require("./scripts/dbConfig");
 
 // error handler
 onerror(app);
 
 // middlewares
-//app.use(session(CONFIG, app));
+const CONFIG = {
+    key: 'kas', /** (string) cookie key (default is koa:sess) */
+    /** (number || 'session') maxAge in ms (default is 1 days) */
+    /** 'session' will result in a cookie that expires when session/browser is closed */
+    /** Warning: If a session cookie is stolen, this cookie will never expire */
+    maxAge: 86400000,
+    overwrite: true, /** (boolean) can overwrite or not (default true) */
+    httpOnly: true, /** (boolean) httpOnly or not (default true) */
+    signed: true, /** (boolean) signed or not (default true) */
+    rolling: false, /** (boolean) Force a session identifier cookie to be set on every response. The expiration is reset to the original maxAge, resetting the expiration countdown. (default is false) */
+    renew: false, /** (boolean) renew session when session is nearly expired, so we can always keep user logged in. (default is false)*/
+  };
+   
+app.use(session(CONFIG, app));
 
-const sessionMysqlConfig = {
-    user: config.database.USERNAME,
-    password: config.database.PASSWORD,
-    database: config.database.DATABASE,
-    host: config.database.HOST
-};
+// const sessionMysqlConfig = {
+//     user: config.database.USERNAME,
+//     password: config.database.PASSWORD,
+//     database: config.database.DATABASE,
+//     host: config.database.HOST
+// };
 
 // 配置session中间件
-app.use(session({
-  key: 'USER_SID',
-  store: new MysqlStore(sessionMysqlConfig)
-}))
+// app.use(session({
+//   key: 'USER_SID',
+//   store: new MysqlStore(sessionMysqlConfig)
+// }))
 
 // 缓存
 app.use(staticCache(path.join(__dirname, './assets'), { dynamic: true }, {

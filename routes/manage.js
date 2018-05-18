@@ -6,7 +6,7 @@ const getExt = require("../scripts/getExt");
 const toSafePath = require("../scripts/toSafePath");
 const login = require("./login.js");
 const send403 = require("../scripts/send403");
-const userModel = require("../scripts/sql.js");
+//const userModel = require("../scripts/sql.js");
 const moment = require("moment");
 
 const sleep = require("../debug/sleep");

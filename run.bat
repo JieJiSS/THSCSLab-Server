@@ -1,1 +1,0 @@
-@mongod --dbpath ..\server\database

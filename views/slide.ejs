@@ -2,38 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh" lang="zh">
 <head>
     <title>
-        <%- title %> - THSCSLab</title>
-    <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8" />
-    <meta name="author" content="JieJiSS" />
-    <meta name="description" content="The homepage of Tsinghua Highschool Computer Science Laboratory" />
-    <meta name="keywords" content="THSITG, THSCSLab, Tsinghua Highschool, 清华附中, 高等项目研究实验室, 高研实验室, 高研" />
-    <meta name="robots" content="index, follow, noarchive" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/index.css" />
-    <link rel="stylesheet" href="/assets/css/atom-one-light.css">
-    <script src="/assets/js/jquery-3.2.1.min.js" type="application/javascript"></script>
-    <script src="/assets/js/highlight.pack.js" type="application/javascript"></script>
-    <script type="application/javascript">
-        function loaded() {
-            var titles = $("#main h1, #main h2");
-            var sides = $("ul.sidemenu#sides");
-            for (var i = 0; i < titles.length; i++) {
-                var n = titles.get(i).innerText.replace(/\s/g, "").toLowerCase();
-                titles.get(i).parentNode.insertBefore($("<a>").prop("name", n).get(0), titles[i]);
-                var li = $('<li><a href="#' + n + '">');
-                li.get(0).childNodes[0].innerText = titles.get(i).innerText;
-                if (titles.get(i).nodeName.toLowerCase() === "h2") {
-                    $(li.get(0)).attr("class", "h2-side");
-                }
-                li.appendTo(sides);
-            }
-        }
-        if (window.attachEvent) {
-            window.attachEvent("onload", loaded);
-        } else if (window.addEventListener) {
-            window.addEventListener("DOMContentLoaded", loaded, false);
-        } else {
-            window.onload = loaded;
-        }
+    <%- title %> - THSCSLab</title>
+    <% include style_script.html %>
+        <script type="application/javascript">
+        var TITLE = "<%- _title %>";
     </script>
     <!--piccolo-->
     <!--<link rel="stylesheet" href="/assets/css/bootstrap.css">-->
@@ -127,48 +99,9 @@
         </div>
         <!--<script src="/assets/js/jquery.xpath.js"></script>-->
         <script>
-        var htmlStr = '<div class="container">\n\
-                <div class="row headline">\n\
-                    <!-- Begin Headline -->\n\
-                    <div style="width: <%- Math.min(imageSetting.width || 600, 660) %>px; float: left; min-height: 1px; margin-left: <%- (671 - Math.min(imageSetting.width || 600, 660)) / 2 + 30 %>px !important; margin-top: 5px; display: block !important;">\n\
-                        <div class="flexslider">\n\
-            \n\
-                            <div class="flex-viewport" style="overflow: hidden; position: relative;">\n\
-                                <ul class="slides" style>\n\
-                                    <% for(var i = 0; i < images.length; i++) {%>\
-                                        <% if(i === 0) {%>\n\
-                                            <li class="clone" style>\n\
-                                                <a>\n\
-                                                    <img src="/assets/images/gallery/<%- _title %>/<%- images[i] %>" alt>\n\
-                                                </a>\n\
-                                            </li>\n\
-                                        <% } else { %>\n\
-                                            <li class>\n\
-                                                <a>\n\
-                                                    <img src="/assets/images/gallery/<%- _title %>/<%- images[i] %>" alt>\n\
-                                                </a>\n\
-                                            </li>\n\
-                                        <% } %>\
-                                    <% } %>\n\
-                                </ul>\n\
-                            </div>\n\
-                            <ul class="flex-direction-nav">\n\
-                                <li>\n\
-                                    <a class="flex-prev" href="#">Previous</a>\n\
-                                </li>\n\
-                                <li>\n\
-                                    <a class="flex-next" href="#">Next</a>\n\
-                                </li>\n\
-                            </ul>\n\
-                        </div>\n\
-                    </div>\n\
-            \n\
-                </div>\n\
-                <!-- End Headline -->\n\
-            </div>';
-        $(document).ready(function () {
-            $(htmlStr).insertAfter($("div#content <%- imageSetting.insertAfter || '' %>").get(<%- imageSetting.nodeIndex%>));
-        });
+        //$(document).ready(function () {
+        //    $(htmlStr).insertAfter($("div#content < imageSetting.insertAfter || '' >").get(< imageSetting.nodeIndex>));
+        //});
         </script>
         <!-- Footer -->
         <% include footer.html %>
@@ -180,6 +113,7 @@
                 }
                 window.addEventListener("scroll", slideMenu);
     </script>
+    <script src="../js/slider-main.js"></script>
 </body>
-
 </html>
+<!--Slides-->
