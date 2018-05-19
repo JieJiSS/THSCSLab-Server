@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Error <%- error.status %></title>
+<title>Error {{ status }}</title>
 <!-- Meta tag Keywords -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -293,9 +293,9 @@ header {
 <header></header>
 <div class="w3-main">
 	<div class="agile-info">
-		<h2><%- error.status %></h2>
+		<h2>{{ status }}</h2>
 		<h3>Oops!</h3>
-		<p><%- message || "Looks like something broke!" %></p>
+		<p>Server Error: {{ error || "Looks like something broke!" }}</p>
 	</div>
 </div>
 </body>

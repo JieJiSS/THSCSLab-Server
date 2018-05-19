@@ -57,8 +57,8 @@ img.float-left {
 }
 
 pre {
-  position: relative;
-  left: 10px;
+  padding: 10px;
+  margin-left: 35px;
 }
 code {
   border: 1px solid #fafafa;
@@ -294,9 +294,12 @@ form.search input.button {
     background-color: #fff;
 	list-style: none;
 	text-align: left;
-	margin: 3px 0px 8px 0; padding: 0;
+	margin: 0 0 8px 0;
+	padding: 0;
 	text-decoration: none;
-    font-size: .9em;
+	font-size: .9em;
+	border: 1px solid #B6B8BB;
+	border-top: none;
 }
 #sidebar ul.sidemenu li {
 	border-bottom: 1px solid #EFF0F1;
@@ -357,3 +360,7 @@ form.search input.button {
 .clear { clear: both; }
 .gray { color: #CCC; }
 .less-gray { color: #DDD; }
+
+p>img {
+	max-width: 633px;
+}

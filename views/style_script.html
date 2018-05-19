@@ -10,6 +10,8 @@
 <script src="/assets/js/highlight.pack.js" type="application/javascript"></script>
 <script type="application/javascript">
     function loaded() {
+        var h1_text = $("#main h1")[1].innerText; // ["Description", ...]
+        document.title = h1_text + " - THSCSLab";
 		var titles = $("#main h1, #main h2");
 		var sides = $("ul.sidemenu#sides");
         for(var i = 0; i < titles.length; i++) {

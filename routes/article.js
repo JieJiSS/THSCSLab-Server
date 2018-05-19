@@ -1,3 +1,5 @@
+"use strict";
+
 const router = require("koa-router")();
 const { toTitle } = require("../scripts/toTitle");
 const antiInject = require("../scripts/antiInject");
@@ -83,6 +85,7 @@ router.get("/:title", async (ctx, next) => {
             .replace("\uFEFF", "")
             .replace(/^(#+)([^\s#])/gim, "$1 $2");
         const html = md.render(mdsource);
+        let parsedTitle = html.match(/\<h1\>([\s\S]+?)\<\/h1\>/)[1];
         let hasSlide = false, slideImgs = [], slideParent = null;
         let imageSetting = null;
         //console.log(slideList, ctx.params.title);
@@ -92,7 +95,7 @@ router.get("/:title", async (ctx, next) => {
         const articleConfig = CONFIG[ctx.params.title] || {};
         let post_date = new Date();
         if(articleConfig.datetime) {
-            post_date = new Date(articleConfig.datetime);
+            post_date = new Date(articleConfig.datetime).toDateString();
         } else {
             post_date = ((await stat(fpath)).mtime).toDateString();
         }
@@ -105,7 +108,7 @@ router.get("/:title", async (ctx, next) => {
         };
         if(hasSlide) {
             ctx.body = await ctx.render("slide", {
-                title: obj.title,
+                title: parsedTitle || toTitle(obj.title),
                 _title: ctx.params.title,
                 description: obj.description,
                 main_html: obj.main_html,
@@ -114,7 +117,8 @@ router.get("/:title", async (ctx, next) => {
             });
         } else { 
             ctx.body = await ctx.render("article", {
-                title: toTitle(obj.title),
+                title: parsedTitle || toTitle(obj.title),
+                _title: ctx.params.title,
                 description: obj.description,
                 main_html: obj.main_html,
                 post_date: obj.post_date,

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh" lang="zh">
 <head>
     <title>
-    <%- title %> - THSCSLab</title>
+    <%= title %> - THSCSLab</title>
     <% include style_script.html %>
         <script type="application/javascript">
         var TITLE = "<%- _title %>";
@@ -12,15 +12,13 @@
     <link rel="stylesheet" href="/assets/css/bootstrap-responsive.css">
     <link rel="stylesheet" href="/assets/css/prettyPhoto.css">
     <link rel="stylesheet" href="/assets/css/flexslider.css">
-    <!--<link rel="stylesheet" href="/assets/css/custom-styles.css">-->
-    
+
     <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <link rel="stylesheet" href="/assets/css/style-ie.css"/>
     <![endif]-->
-    
-    <!-- JS
-    ================================================== -->
+
+    <!-- JS -->
     <script src="/assets/js/bootstrap.js"></script>
     <script src="/assets/js/jquery.prettyPhoto.js"></script>
     <script src="/assets/js/jquery.flexslider.js"></script>
@@ -73,7 +71,7 @@
                     </span>
                     <span class="comments">文章作者：
                         <span id="author">
-                            <%- author %>
+                            <%= author %>
                         </span>
                     </span>
                 </p>
@@ -92,7 +90,7 @@
             <div id="sidebar" style="margin-top: 10px;">
                 <h1>文章目录</h1>
                 <ul class="sidemenu" id="sides">
-                    <noscript style="padding-left: 3px;">JavaScript code support is required.</noscript>
+                    <noscript style="margin-left: 5px;">JavaScript code support is required.</noscript>
                 </ul>
             </div>
             <!--End content-wrap-->
@@ -113,7 +111,7 @@
                 }
                 window.addEventListener("scroll", slideMenu);
     </script>
-    <script src="../js/slider-main.js"></script>
+    <script src="/assets/js/slider-main.js"></script>
 </body>
 </html>
 <!--Slides-->

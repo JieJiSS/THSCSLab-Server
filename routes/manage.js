@@ -109,7 +109,7 @@ router.get(/^\/assets\/\S+$/, async (ctx, next) => {
     const file = toSafePath(ctx.url.replace(/\?.*$/, ""));
     ctx.type = getExt(file);
     _path = path.join(__dirname, "..", file);
-    console.log(_path);
+    // console.log(_path);
     ctx.body = await readFile(_path);
 });
 

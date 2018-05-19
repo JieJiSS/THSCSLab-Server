@@ -8,7 +8,7 @@ const hash = require("./scripts/hash");
 const session = require("koa-session-minimal");
 const MysqlStore = require("koa-mysql-session");
 const router = require("koa-router")();
-const onerror = require("koa-onerror");
+const onerror = require("./scripts/koa-onerror-edited/index.js");
 const bodyparser = require("koa-bodyparser");
 const logger = require("koa-logger");
 const staticCache = require("koa-static-cache");
@@ -16,6 +16,7 @@ const staticCache = require("koa-static-cache");
 const manage = require("./routes/manage");
 const article = require("./routes/article");
 const uploadMD = require("./routes/uploadMD");
+const antiInject = require("./scripts/antiInject");
 //const config = require("./scripts/dbConfig");
 
 // error handler
@@ -59,7 +60,15 @@ app.use(
     bodyparser({
         enableTypes: ["json", "form", "text"],
         onerror: function(err, ctx) {
-            ctx.throw("body parse error", 422);
+            ctx.status = 422;
+            ctx.body = ctx.render("error", {
+                error: {
+                    status: 422,
+                    stack: "Error at bodyparser",
+                },
+                message: "Failed to parse request body"
+            });
+            // ctx.throw("body parse error", 422);
         },
         formLimit: "1mb"
     })
@@ -72,7 +81,7 @@ render(app, {
     layout: false,
     viewExt: ".ejs",
     cache: false,
-    writeResp: false,
+    writeResp: false, // return html string instad of writing ctx.body
     debug: false
 });
 
@@ -92,8 +101,36 @@ app.use(article.routes(), article.allowedMethods());
 app.use(uploadMD.routes(), uploadMD.allowedMethods());
 
 // error-handling
+app.use(async (ctx, next) => {
+    if (ctx.status === 404) {
+        console.log("[ERR] 404:", ctx.url, "requested but no route matches.");
+        if(ctx.url.endsWith(".js") || ctx.url.endsWith(".css")) {
+            ctx.status = 404;
+            ctx.body = "";
+        } else {
+            ctx.body = await ctx.render("error", {
+                message: "Failed to match router for <code>" + antiInject(ctx.url) + "</code>",
+                error: {
+                    status: 404,
+                    stack: "Error 404 at *"
+                }
+            });
+        }
+    } else if (ctx.status === 500) {
+        ctx.body = await ctx.render("error", {
+            message: "Internal Server Error occured while loading <code>" + antiInject(ctx.url) + "</code>",
+            error: {
+                status: 500,
+                stack: "Error 500 at " + ctx.url
+            }
+        });
+    } else {
+        await next();
+    }
+});
+
 app.on("error", (err, ctx) => {
-    console.error("server error", err, ctx);
+    console.error("[ERR] Server error:", err.stack);
 });
 
 module.exports = app;

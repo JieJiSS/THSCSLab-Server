@@ -26,7 +26,7 @@ function parseFilename (fn = "") {
         }),
         "-"
     );
-    return joinedPinyin.replace(/\s+/g, "-") + ".md";
+    return joinedPinyin.replace(/[\/\\]+/g, "").replace(/\s+/g, "-") + ".md";
 }
 
 function joinArray(arr, sep=" ") { //dirty hack
