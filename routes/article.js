@@ -28,7 +28,7 @@ const md = require("markdown-it")({
         const inf = token.info;
         if (regex1.test(inf)) {
             let m = toSafeHTML(inf.match(regex1));
-            let UNIT = "px";
+            let UNIT;
             if(isNaN(m[1])) {
                 if(!isNaN(parseFloat(m[1]))) { // 100.0px
                     let num = parseFloat(m[1]);
@@ -41,7 +41,7 @@ const md = require("markdown-it")({
             return `<div class="container">
             <div class="row headline">
                 <!-- Begin Headline -->
-                <div class="headline-slider" style="width: ${m[1]}; margin-left: calc(338.5px - ${parseFloat(m[1])/2}${UNIT}) !important;">
+                <div class="headline-slider" style="width: ${m[1]}; margin-left: calc(338.5px - ${parseFloat(m[1])/2}${UNIT || "px"}) !important;">
                     <div class="flexslider">
                         <div class="flex-viewport" style="overflow: hidden; position: relative;">
                             <ul class="slides" v-data="width:${m[1]};duration:2" style>\n`;
