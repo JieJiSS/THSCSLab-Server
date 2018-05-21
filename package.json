@@ -9,6 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "copy-to": "^2.0.1",
     "debug": "^2.6.3",
     "koa": "^2.2.0",
     "koa-bodyparser": "^3.2.0",
@@ -18,6 +19,7 @@
     "koa-logger": "^2.0.1",
     "koa-multer": "^1.0.2",
     "koa-mysql-session": "0.0.2",
+    "koa-onerror": "^4.0.0",
     "koa-router": "^7.4.0",
     "koa-session": "^5.5.0",
     "koa-session-minimal": "^3.0.4",
@@ -34,10 +36,12 @@
     "path-to-regexp": "^2.1.0",
     "pinyin": "^2.8.3",
     "pug": "^2.0.0-rc.1",
+    "swig": "^1.4.2",
     "uuid": "^3.1.0"
   },
   "devDependencies": {
     "@types/koa": "^2.0.44",
+    "babel-eslint": "^6.1.2",
     "nodemon": "^1.12.1"
   }
 }

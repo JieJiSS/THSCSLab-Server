@@ -1,11 +1,12 @@
 "use strict";
 const router = require("koa-router")();
 const path = require("path");
-const multer = require('koa-multer');
-const md = require('markdown-it')();
-const fs = require('fs');
-const { promisify } = require('bluebird');
-const { parseFilename, getFilename } = require("../scripts/toTitle");
+const multer = require("koa-multer");
+const md = require("markdown-it")();
+const fs = require("fs");
+const util = require("util");
+const { promisify } = require("bluebird");
+const { getFilename } = require("../scripts/toTitle");
 const toSafePath = require("../scripts/toSafePath");
 const antiInject = require("../scripts/antiInject");
 
@@ -34,12 +35,12 @@ const upload = multer({
 });
 //路由
 
-router.get("/upload-md", async (ctx, next) => {
+router.get("/upload-md", async (ctx) => {
     ctx.type = ".html";
     ctx.body = await readFile(path.join(__dirname, "/views/uploadmd.html"));
 });
 
-router.post("/upload-md", upload.single("file"), async (ctx, next) => {
+router.post("/upload-md", upload.single("file"), async (ctx) => {
     let filePath = path.join(__dirname, "../md", toSafePath(ctx.req.file.filename));
     let data = (await readFile(filePath))
         .toString()
@@ -81,12 +82,14 @@ router.post("/upload-md", upload.single("file"), async (ctx, next) => {
             });
             unlink(filePath, err => {
                 if(err) {
-                    console.error("删除失败：", err.message);
+                    util.error("删除失败：", err.message);
                 }
             });
             return;
         }
-    } catch (err) {} //文件不存在
+    } catch (err) {
+        util.error(err.message);
+    } //文件不存在
     try {
         await rename(filePath, fpath); // @TODO 直接写入html，只渲染一次。
     } catch (err) {
@@ -107,7 +110,7 @@ router.post("/upload-md", upload.single("file"), async (ctx, next) => {
         return;
     }
     let showName = name.replace(/\.md$/i, "");
-    console.log("Request:", ctx.request);
+    util.log("Request:", ctx.request);
     ctx.type = ".html";
     ctx.body = `<html>
     <head>

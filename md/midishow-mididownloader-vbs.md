@@ -3,7 +3,7 @@ a simple vbscript file use to download midi(s) from www.midishow.com.
 
 Usage: doubleclick the `.vbs` script and enjoy :D
 
-:::Slider(600)
+:::Slider(100px)
 ![ABC](/assets/images/gallery/midishow-mididownloader-vbs/slider-img-4.jpg)
 ![BCA](/assets/images/gallery/midishow-mididownloader-vbs/slider-img-5.jpg)
 ![CAB](/assets/images/gallery/midishow-mididownloader-vbs/slider-img-6.jpg)

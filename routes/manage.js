@@ -1,26 +1,27 @@
 const router = require("koa-router")();
 const session = require("koa-session");
 const path = require("path");
+const util = require("util");
 const readFile = require("../scripts/readFile");
 const getExt = require("../scripts/getExt");
 const toSafePath = require("../scripts/toSafePath");
 const login = require("./login.js");
 const send403 = require("../scripts/send403");
-//const userModel = require("../scripts/sql.js");
+const userModel = require("../scripts/sql.js");
 const moment = require("moment");
 
-const sleep = require("../debug/sleep");
+// const sleep = require("../debug/sleep");
 
-router.get("/login", async (ctx, next) => {
+router.get("/login", async (ctx) => {
     ctx.type = "html";
     ctx.body = await ctx.render("login", { error: "" });
 });
 
-router.get(/^\/(index)?$/, async (ctx, next) => {
+router.get(/^\/(index)?$/, async (ctx) => {
     ctx.body = "Index page";
 });
 
-router.post("/login-form", async (ctx, next) => {
+router.post("/login-form", async (ctx) => {
     let user = {
         username: ctx.request.body.username,
         password: ctx.request.body.password,
@@ -67,9 +68,9 @@ router.post("/signup-form", async (ctx, next) => {
         username: ctx.request.body.username,
         password: ctx.request.body.password
     };
-    console.log(user);
+    util.log(user);
     let sess = ctx.session.hash;
-    console.log(sess);
+    util.log(sess);
     //result = login.login(sess, json);
     //ctx.body = String(result);
     await userModel.findDataByName(user.username)
@@ -78,14 +79,15 @@ router.post("/signup-form", async (ctx, next) => {
                 ctx.status = 301;
                 ctx.redirect("/signup?errcode=1");
             } else {
-                let getName = Number(Math.random().toString().substr(3)).toString(36) + Date.now();
+                // let getName = Number(Math.random().toString().substr(3)).toString(36) + Date.now();
                 await userModel.insertData([
                     user.username, 
                     user.password, 
-                    moment().format('YYYY-MM-DD HH:mm:ss')
+                    moment().format("YYYY-MM-DD HH:mm:ss")
                 ]).then(res => {
                     ctx.status = 301;
                     ctx.redirect("/article");
+                    res("done!");
                 });
             }
         })
@@ -109,7 +111,7 @@ router.get(/^\/assets\/\S+$/, async (ctx, next) => {
     const file = toSafePath(ctx.url.replace(/\?.*$/, ""));
     ctx.type = getExt(file);
     _path = path.join(__dirname, "..", file);
-    // console.log(_path);
+    // util.log(_path);
     ctx.body = await readFile(_path);
 });
 
