@@ -42,6 +42,6 @@
   "devDependencies": {
     "@types/koa": "^2.0.44",
     "babel-eslint": "^6.1.2",
-    "nodemon": "^1.12.1"
+    "nodemon": "^1.18.7"
   }
 }
