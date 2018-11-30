@@ -68,7 +68,7 @@ code {
   text-align: left;
   display: inline;
   overflow: auto;  
-  font: 500 1em/1.5em 'Lucida Console', 'courier new', monospace !important;
+  font: 500 1em/1.5em 'Menlo', 'Lucida Console', 'courier new', monospace !important;
   white-space: pre;
   background: #FAFAFA;
   border: 1px solid #f2f2f2;  

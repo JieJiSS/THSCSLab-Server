@@ -3,3 +3,4 @@ node_modules/*
 temp
 temp/*
 PSWD.txt
+.DS_Store
