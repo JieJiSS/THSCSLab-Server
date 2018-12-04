@@ -37,6 +37,7 @@
     "pinyin": "^2.8.3",
     "pug": "^2.0.0-rc.1",
     "swig": "^1.4.2",
+    "ua-parser-js": "^0.7.19",
     "uuid": "^3.1.0"
   },
   "devDependencies": {
