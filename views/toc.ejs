@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh" lang="zh">
+<head>
+<title>Index - THSCSLab</title>
+<% include style_script.html %>
+</head>
+<body>
+<!-- Wrap -->
+<div id="wrap"> 
+        <!-- Header -->
+        <% include header.html %>
+        <!--Content Wrap -->
+        <div id="content-wrap">
+            <div id="main">
+                <% for(var i = 0; i < files.length; i++) { %>
+                    <li>
+                        <a href="/article/<%= files[i] %>"><%= files[i] %></a>
+                    </li>
+                <% } %>
+            </div>
+            <script type="application/javascript">
+                var ctx = location.origin;
+                $("div#main").ready(function () {
+                    $('pre code').each(function(_, block) {
+                        hljs.highlightBlock(block);
+                    });
+                });
+            </script>
+        <!--End content-wrap-->
+        </div>
+        <!-- Footer -->
+        <% include footer.html %>
+<!-- END Wrap -->
+</div>
+<script>
+    window.addEventListener("scroll", slideMenu);
+    $("#logout").click(function () {
+        $.post("/logout", {}, function () {
+            location.reload();
+        });
+    });
+</script>
+</body>
+</html>

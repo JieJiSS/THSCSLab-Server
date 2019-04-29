@@ -11,6 +11,7 @@ const { toTitle } = require("../scripts/toTitle");
 
 const readFile = promisify(fs.readFile);
 const stat = promisify(fs.stat);
+const readdir = promisify(fs.readdir);
 
 const regex1 = /^slider\s*\(\s*(\w+)\s*\)\s*$/i,
     regex2 = /^end\s*$/i;
@@ -74,6 +75,14 @@ const md = require("markdown-it")({
 const CONFIG  = require("../config/articleConfig.json");
 
 router.prefix("/article");
+
+router.get("/", async (ctx) => {
+    const files = await readdir(path.resolve(path.join(__dirname, "../md/")));
+    const displayFiles = files.filter(str => str && !str.startsWith(".") && str.endsWith(".md")).map(str => str.slice(0, -3));
+    ctx.body = await ctx.render("toc", {
+        files: displayFiles
+    });
+});
 
 router.get("/:title", async (ctx) => {
     /*
