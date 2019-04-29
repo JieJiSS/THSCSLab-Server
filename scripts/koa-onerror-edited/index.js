@@ -14,7 +14,7 @@ var assert = require('assert');
 var http = require('http');
 var path = require('path');
 var copy = require('copy-to');
-var swig = require('swig');
+var ejs = require('ejs');
 
 var env = process.env.NODE_ENV || 'production';
 var isDev = env === 'development';
@@ -38,7 +38,9 @@ function onerror(app, options) {
   };
 
   copy(defaultOptions).to(options);
-  var render = swig.compileFile(options.template);
+  var render = function (data) {
+    return ejs.renderFile(options.template, data);
+  }
 
   app.context.onerror = function(err) {
     // don't do anything if there is no error.
@@ -104,10 +106,6 @@ function onerror(app, options) {
 
   function html(err) {
     this.body = render({
-      env: env,
-      ctx: this,
-      request: this.request,
-      response: this.response,
       error: err.message,
       stack: err.stack,
       status: this.status,
