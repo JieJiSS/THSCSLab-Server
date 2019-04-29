@@ -21,7 +21,7 @@ const md = require("markdown-it")({
     langPrefix: "lang-",
     linkify: true,
     typographer: false,
-}).use(require("markdown-it-math"))
+})
     .use(require("markdown-it-task-lists"))
     .use(require("markdown-it-container"), "slider", {
         validate: function (params) {
