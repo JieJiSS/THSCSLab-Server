@@ -2,16 +2,24 @@
 
 const router = require("koa-router")();
 
+const cp = require("child_process");
 const fs = require("fs");
 const path = require("path");
 const { promisify } = require("bluebird");
 
+const removeMd = require("remove-markdown");
+
 const antiInject = require("../scripts/antiInject");
 const { toTitle } = require("../scripts/toTitle");
 
+const exec = promisify(cp.exec);
+const exists = promisify(fs.exists)
 const readFile = promisify(fs.readFile);
+const writeFile = promisify(fs.writeFile);
 const stat = promisify(fs.stat);
 const readdir = promisify(fs.readdir);
+
+const $CMD = process.env["HOME"] + "/anaconda3/bin/python ./lib/recognize.py {txt} {json}";
 
 const regex1 = /^slider\s*\(\s*(\w+)\s*\)\s*$/i,
     regex2 = /^end\s*$/i;
@@ -93,11 +101,27 @@ router.get("/:title", async (ctx) => {
     */
     try {
         const fpath = path.join(__dirname, "../md/", ctx.params.title + ".md");
+        const datapath = path.join(__dirname, "../md/", ctx.params.title + ".json");
+        const txtpath = path.join(__dirname, "../md/", ctx.params.title + ".txt");
         const mdsource = (await readFile(fpath))
             .toString()
             .replace("\uFEFF", "")
             .replace(/^(#+)([^\s#])/gim, "$1 $2");
-        const html = md.render(mdsource);
+        let html = md.render(mdsource);
+        if(!await exists(datapath)) {
+            await writeFile(txtpath, removeMd(mdsource));
+            exec($CMD.replace("{txt}", txtpath).replace("{json}", datapath)).then(() => {}).catch(() => {});
+            html = html + `<script>
+              var recognizedData = {ready: false}");
+            </script>`;
+        } else {
+            html = html + `<script>
+              var recognizedData = JSON.parse("${
+                  (await readFile(datapath)).toString("utf-8")
+              }");
+              recognizedData.ready = true;
+            </script>`;
+        }
         let parsedTitle = html.match(/<h1>([\s\S]+?)<\/h1>/)[1];
         let hasSlide = false;
         //console.log(slideList, ctx.params.title);
