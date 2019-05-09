@@ -110,9 +110,9 @@ router.get("/:title", async (ctx) => {
         let html = md.render(mdsource);
         if(!await exists(datapath)) {
             await writeFile(txtpath, removeMd(mdsource));
-            exec($CMD.replace("{txt}", txtpath).replace("{json}", datapath)).then(() => {}).catch(() => {});
+            //exec($CMD.replace("{txt}", txtpath).replace("{json}", datapath)).then(() => {}).catch(() => {});
             html = html + `<script>
-              var recognizedData = {ready: false}");
+              var recognizedData = {ready: false};
             </script>`;
         } else {
             html = html + `<script>
